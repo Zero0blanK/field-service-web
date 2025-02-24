@@ -1,5 +1,5 @@
 !!!MUST FOLLOW THIS FILE PATH FORMAT!!!
-
+```
 /FieldService/
 │── /config/             # Database connection and app configurations  
 │   │── db.php           # Though i have named the file config.php temporarily
@@ -15,8 +15,8 @@
 │   │   ├── dbTables.php
 │── /templates/         # View files for frontend  
 │   │── home.php  
-│   │── layout.php  
-
+│   │── login.php  
+```
 !!! MUST KNOW !!!
 - Naa sa models tanan ang database tables, it might be subject to change if ever there's a need to add/modify for the sake of implementing a specific requirement/features.
 - Please make use sa mga UI na nabuhat na
@@ -26,9 +26,9 @@
 !!! TODO LIST !!!
 
 BORDS LIST [
-    ALL ADMIN SIDE
-    UI/UX Design
-    FILTERS FUNCTIONALITY
+- ALL ADMIN SIDE
+- UI/UX Design
+- FILTERS FUNCTIONALITY
 ]
 
 AGSOY LIST [
