@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
         exit();
     }
 
-    $stmt = $conn->prepare("SELECT user_id FROM users WHERE email = ?");
+    $stmt = $conn->prepare(query: "SELECT user_id FROM users WHERE email = ?");
     
     $stmt->bind_param("s", $fields['email']);
     $stmt->execute();
