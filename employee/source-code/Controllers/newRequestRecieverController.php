@@ -86,7 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $requestLocation = trim($_POST["location"] ?? "");
 
             //Asumming that we Have CustomerID!
-            $customerID = $_SESSION["customer_id"];
+            $customerID = $_SESSION["user_id"];
 
             // Default Value
             $status = "pending";
