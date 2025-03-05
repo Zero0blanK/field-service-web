@@ -11,31 +11,31 @@ class WorkOrder
         $this->conn = $db;
     }
 
-    public function UpdateCustomer($CustomerID, $newName, $newContactNumber, $newAddress)
+    public function createRequest($CustomerID, $Title, $Description, $Priority, $Status, $Scheduled_Date, $Schedule_Time, $Location, $CreateAt)
     {
         try {
-            // Check if customer exists
-            $stmt1 = $this->conn->prepare("SELECT id FROM customer WHERE id = :id LIMIT 1");
-            $stmt1->execute(['id' => $CustomerID]);
-            $customer = $stmt1->fetch(PDO::FETCH_ASSOC);
+            $stmt1 = $this->conn->prepare("INSERT INTO work_orders (customer_id, title, description, priority, status, scheduled_date, scheduled_time, location, created_at) 
+            VALUES (:customerID, :title, :description, :priority, :status, :date, :time, :location, :created)");
 
-            if (!$customer) {
-                error_log("Customer ID $CustomerID doesn't exist in the database.");
-                return json_encode(["status" => "error", "message" => "Customer ID not found."]);
-            }
+            $stmt1->execute([
+                'customerID' => $CustomerID,
+                'title' => $Title,
+                'description' => $Description,
+                'priority' => $Priority,
+                'status' => $Status,
+                'date' => $Scheduled_Date,
+                'time' => $Schedule_Time,
+                'location' => $Location,
+                'created' => $CreateAt
+            ]);
 
-            // Perform the update query
-            $stmt2 = $this->conn->prepare("UPDATE customer SET name = :newName, contact_number = :newContactNumber, address = :newAddress WHERE id = :id");
+            $requestID = $this->conn->lastInsertId();
 
-            $stmt2->execute(['newName' => $newName,'newContactNumber' => $newContactNumber,'newAddress' => $newAddress,'id' => $CustomerID]);
-
-            // Check if any rows were updated
-            if ($stmt2->rowCount() > 0) {
-                return json_encode(["status" => "success", "message" => "Customer updated successfully."]);
+            if ($requestID) {
+                return json_encode(["status" => "success", "message" => "Request created successfully"]);
             } else {
-                return json_encode(["status" => "error", "message" => "No changes were made."]);
+                return json_encode(["status" => "error", "message" => "An error occurred while creating request."]);
             }
-
         } catch (Exception $e) {
             error_log("Error updating customer: " . $e->getMessage());
             return json_encode(["status" => "error", "message" => "An error occurred while updating customer data."]);
@@ -43,16 +43,18 @@ class WorkOrder
     }
 
 
-    public function DeleteCustomer($customerID)
+    public function cancelRequest($requestID)
     {
         try {
-            $stmt1 = $this->conn->prepare("SELECT id FROM customer WHERE id = :id LIMIT 1");
-            $stmt1->execute(['id' => $customerID]);
-            $customer = $stmt1->fetch(PDO::FETCH_ASSOC);
+            $stmt1 = $this->conn->prepare("SELECT order_id FROM work_orders WHERE order_id = :id LIMIT 1");
+            $stmt1->execute(['id' => $requestID]);
+            $order_id = $stmt1->fetch(PDO::FETCH_ASSOC);
 
-            if ($customer) {
-                $stmt2 = $this->conn->prepare("DELETE FROM customer WHERE id = :id");
-                $stmt2->execute(['id' => $customerID]);
+            $customer_id = $_SESSION['customer_id'];
+
+            if ($order_id && $customer_id) {
+                $stmt2 = $this->conn->prepare("UPDATE work_orders SET status = :newStatus WHERE order_id = :id, customer_id = :cid");
+                $stmt2->execute(['id' => $requestID, 'cid' => $customer_id]);
             } else {
                 error_log("Customer Didn't Exist");
             }
@@ -64,7 +66,6 @@ class WorkOrder
     }
 }
 
-
 // Process request
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST["action"] ?? "";
@@ -74,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $conn = Database::getInstance();
             $conn->beginTransaction();
 
-            $customerHandler = new WorkOrder($conn);
+            $orderHandler = new WorkOrder($conn);
 
             // Recieve Data!
             $requestTitle = trim($_POST["title"] ?? "");
@@ -84,12 +85,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $requestScheduledTime = trim($_POST["scheduled_time"] ?? "");
             $requestLocation = trim($_POST["location"] ?? "");
 
-            $customerID = $_SESSION["customer_ID"];
+            //Asumming that we Have CustomerID!
+            $customerID = $_SESSION["customer_id"];
+
+            // Default Value
+            $status = "pending";
+
             $creationDate = date("Y-m-d");
-
-
             if (!empty($requestTitle)) {
-                $customerHandler->UpdateCustomer($customerID, $customerName, $customerContactNumber, $customerAddress);
+                $orderHandler->createRequest($customerID, $requestTitle, $requestDescription, $requestPriority, $status, $requestScheduledDate, $requestScheduledTime, $requestLocation, $creationDate);
                 echo json_encode(["status" => "success", "message" => "Customer updated successfully"]);
             } else {
                 echo json_encode(["status" => "error", "message" => "Invalid input! Customer ID is required."]);
@@ -116,12 +120,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
 
             $conn->beginTransaction();
-            $customerHandler = new WorkOrder($conn);
+            $orderHandler = new WorkOrder($conn);
 
             $requestID = trim($_POST["requestID"] ?? "");
 
             if (!empty($requestID)) {
-                $customerHandler->DeleteCustomer($customerID);
+                $orderHandler->cancelRequest($customerID);
             }
 
             $conn->commit();
