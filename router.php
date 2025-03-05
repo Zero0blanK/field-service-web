@@ -17,8 +17,13 @@ $routes = [
     '/dashboard/technicians/get-details' => 'controllers/technician-get-details.php',
     '/logout' => 'controllers/logout.php',
     '/login' => 'controllers/login.php',
-    '/register' => 'controllers/register.php'
+    '/register' => 'controllers/register.php',
 
+    '/technicians/dashboard' => 'controllers/technicians/tech-dashboard.php',
+    '/technicians/work-order/history' => 'controllers/technicians/work-order-history.php',
+    '/technicians/work-order/details' => 'controllers/technicians/work-order-details.php',
+    '/technicians/profile/skills' => 'controllers/technicians/tech-skills.php',
+    '/technicians/profile' => 'controllers/technicians/tech-profile.php'
 ];
 
 routeToController($uri, $routes);
