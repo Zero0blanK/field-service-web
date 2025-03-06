@@ -1,5 +1,7 @@
 <?php 
 
+require_once 'auth.php';
+
 function dd($value){
     echo "<pre>";
     var_dump($value);
@@ -18,12 +20,28 @@ function abort($code = 404){
     die();
 }
 
-function routeToController($uri, $routes){
-    if(array_key_exists($uri, $routes)){
-        require $routes[$uri];
-    } else {
+function routeToController($uri, $routes) {
+    if (!array_key_exists($uri, $routes)) {
         abort();
     }
+
+    $route = $routes[$uri];
+
+    // If authentication is required, check user roles
+    if (is_array($route)) {
+
+        $file = $route['file'];
+        $allowedRoles = $route['roles'] ?? [];
+
+        if (!empty($allowedRoles)) {
+            authorize($allowedRoles);
+        }
+    } else {
+        $file = $route;
+    }
+
+    require $file;
+    exit();
 }
 
 function formatDate($date) {

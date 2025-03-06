@@ -1,44 +1,22 @@
 <?php
 
+
 $config = require_once 'config.php';
 $db = new dbConnection($config['database']);
+require_once 'register-user.php';
+
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        if (isset($_POST['action']) && $_POST['action'] === 'create') {
-
-            $params = [
-                ':name' => $_POST['name'],
-                ':email' => $_POST['email'],
-                ':phone' => $_POST['phone'],
-                ':address' => $_POST['address'],
-                ':city' => $_POST['city'],
-                ':zipcode' => $_POST['zipcode'],
-                ':password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
-                ':role' => 'technician'
-            ];
-            
-            // Insert into users table
-            $db->query(
-                "INSERT INTO users (
-                    name, email, phone, address, city, zipcode, password, role, created_at
-                ) VALUES (
-                    :name, :email, :phone, :address, :city, :zipcode, :password, :role, NOW()
-                )",
-                $params
-            );
-
-            $user_id = $db->lastInsertId();
-
-            $db->query(
-                "INSERT INTO technicians (user_id, status) VALUES (:user_id, :status)",
-                [':user_id' => $user_id, ':status' => $_POST['status']]
-            );
-            $_SESSION['success_message'] = "Technician created successfully";
-        }
-    } catch (Exception $e) {
-        $_SESSION['error_message'] = "Error creating technician " . $e->getMessage();
-    }
+    registerUser($db, [
+        ':name' => $_POST['tech_name'],
+        ':email' => $_POST['email'],
+        ':phone' => $_POST['phone'],
+        ':address' => $_POST['address'],
+        ':city' => $_POST['city'],
+        ':zipcode' => $_POST['zipcode'],
+        ':password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
+        ':role' => 'technician'
+    ], 'technician');
     // Redirect to avoid form resubmission
     header('Location: /dashboard/technicians');
     exit;

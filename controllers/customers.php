@@ -1,5 +1,7 @@
 <?php
 
+
+
 $config = require_once 'config.php';
 $db = new dbConnection($config['database']);
 
@@ -41,73 +43,6 @@ if (isset($_GET['search']) && isset($_GET['ajax'])) {
         echo json_encode(['error' => $e->getMessage()]);
         exit;
     }
-}
-
-// Handle form submissions
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    try {
-        if (isset($_POST['action']) && $_POST['action'] === 'create') {
-            $params = [
-                ':name' => $_POST['name'],
-                ':email' => $_POST['email'],
-                ':phone' => $_POST['phone'],
-                ':address' => $_POST['address'],
-                ':city' => $_POST['city'],
-                ':zipcode' => $_POST['zipcode'],
-                ':password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
-                ':role' => 'customer'
-            ];
-
-            // Insert into users table
-            $db->query(
-                "INSERT INTO 
-                    users (
-                        name, 
-                        email, 
-                        phone, 
-                        address, 
-                        city, 
-                        zipcode, 
-                        password, 
-                        role, 
-                        created_at
-                    ) 
-                VALUES (
-                    :name, 
-                    :email, 
-                    :phone, 
-                    :address, 
-                    :city, 
-                    :zipcode, 
-                    :password, 
-                    :role, 
-                    NOW())
-                ", $params
-            );
-
-            $user_id = $db->lastInsertId();
-
-            // Insert into customers table
-            $db->query(
-                "INSERT INTO
-                    customers (
-                        user_id,
-                        company_name
-                    ) 
-                VALUES (
-                    :user_id,
-                    :company_name
-                )",
-                [':user_id' => $user_id, ':company_name' => $_POST['company_name']]
-            );
-
-            $_SESSION['success_message'] = "Customer created successfully";
-        }
-    } catch (Exception $e) {
-        $_SESSION['error_message'] = "Error creating customer: " . $e->getMessage();
-    }
-    header("Location: /customers");
-    exit;
 }
 
 try {
@@ -174,7 +109,7 @@ try {
         FROM customers c
         LEFT JOIN users u ON c.user_id = u.user_id
         LEFT JOIN work_orders wo ON c.customer_id = wo.customer_id
-        WHERE c.company_name = '' OR c.company_name IS NULL
+        WHERE c.company_name = '' OR c.company_name IS NULL AND u.role = 'customer'
         GROUP BY c.customer_id
         ORDER BY u.name
         LIMIT :offset, :limit",

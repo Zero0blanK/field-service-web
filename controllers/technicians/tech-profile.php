@@ -1,5 +1,7 @@
 <?php
 
+
+
 $config = require_once 'config.php';
 $db = new dbConnection($config['database']);
 
@@ -8,8 +10,10 @@ define("VIEWS", ROOT . "/../views/");
 
 // checkTechnicianAccess();
 
-// $tech_id = $_SESSION['tech_id'];
-$tech_id = 2;
+$userId = $_SESSION['user_id'];
+
+$tech_id = $db->query("SELECT tech_id FROM technicians WHERE user_id = :user_id", [$userId])->fetch()['tech_id'];
+
 
 // Fetch technician profile details
 $profile = $db->query("
@@ -19,6 +23,7 @@ $profile = $db->query("
     WHERE t.tech_id = :tech_id",
     [$tech_id]
 )->fetch();
+
 
 // Fetch technician's work statistics
 $work_stats = $db->query("

@@ -57,6 +57,7 @@
 
                 <form method="POST" class="space-y-4">
                     <input type="hidden" name="account_type" id="account_type" value="resident">
+                    <input type="hidden" name="registration" value="customer_reg">
 
                     <!-- Company Name (Hidden by default) -->
                     <div id="company_field" class="hidden space-y-1">

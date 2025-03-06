@@ -1,6 +1,6 @@
 <!-- View Work Order Modal -->
-<div id="viewOrderModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
-    <div class="relative top-20 mx-auto p-5 border w-full max-w-xl shadow-lg rounded-md bg-white">
+<div id="viewOrderModal" class="hidden fixed inset-0 bg-gray-600/30 bg-opacity-50 overflow-y-auto h-full w-full">
+    <div class="relative my-8 mx-auto p-5 border border-gray-400 w-full max-w-xl shadow-lg rounded-md bg-white">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-medium text-gray-900">Work Order Details</h3>
             <button onclick="closeModal('viewOrderModal')" class="text-gray-400 hover:text-gray-500">
@@ -17,7 +17,7 @@
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700">Priority</label>
-                    <p id="viewPriority" class="mt-1 p-2 rounded-full text-sm inline-block"></p>
+                    <p id="viewPriority" class="mt-1 py-2 px-3 rounded-full text-sm inline-block"></p>
                 </div>
             </div>
 
@@ -50,7 +50,7 @@
 
             <div>
                 <label class="block text-sm font-medium text-gray-700">Status</label>
-                <p id="viewStatus" class="mt-1 p-2 rounded-full text-sm inline-block"></p>
+                <p id="viewStatus" class="mt-1 py-2 px-3 rounded-full text-sm inline-block"></p>
             </div>
 
             <div>

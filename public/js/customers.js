@@ -1,7 +1,9 @@
 function viewCustomerDetails(customerId) {
     const modal = document.getElementById('customerDetailsModal');
     const content = document.getElementById('customerDetailsContent');
-    
+
+    document.body.style.overflow = 'hidden';
+
     // Fetch customer details using AJAX
     fetch(`/dashboard/customers/get-details?id=${customerId}`)
         .then(response => response.text())
@@ -18,10 +20,12 @@ window.onclick = function(event) {
     
     if (event.target == createModal) {
         createModal.classList.add('hidden');
+        document.body.style.overflow = '';
     }
     
     if (event.target == detailsModal) {
         detailsModal.classList.add('hidden');
+        document.body.style.overflow = '';
     }
 }
 

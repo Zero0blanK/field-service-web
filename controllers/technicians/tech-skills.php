@@ -1,5 +1,7 @@
 <?php
 
+
+
 $config = require_once 'config.php';
 $db = new dbConnection($config['database']);
 
@@ -8,7 +10,9 @@ define("VIEWS", ROOT . "/../views/");
 
 // checkTechnicianAccess();
 
-$tech_id = 2;
+$userId = $_SESSION['user_id'];
+
+$tech_id = $db->query("SELECT tech_id FROM technicians WHERE user_id = :user_id", [$userId])->fetch()['tech_id'];
 
 // Fetch all available skills
 $all_skills = $db->query("SELECT * FROM skills ORDER BY name")->fetchAll();

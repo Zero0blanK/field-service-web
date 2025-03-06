@@ -58,25 +58,6 @@ function closeModal() {
     document.getElementById('completeWorkModal').classList.add('hidden');
 }
 
-// Handle Add Note Form
-document.getElementById('addNoteForm').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-
-    fetch('ajax/add_order_note.php', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Reload notes or append new note to the list
-            location.reload();
-        } else {
-            alert('Failed to add note: ' + data.message);
-        }
-    });
-});
 
 // Handle Complete Work Form
 document.getElementById('completeWorkForm').addEventListener('submit', function(e) {

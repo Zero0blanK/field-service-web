@@ -8,6 +8,7 @@ function viewTechnicianDetails(techId) {
         .then(data => {
             content.innerHTML = data;
             modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
         });
 }
 
@@ -31,45 +32,48 @@ function getStatusColor(status) {
 }
 
 function viewWorkOrderDetails(orderId) {
-const modal = document.getElementById('viewOrderModal');
-const content = document.getElementById('viewOrderContent');
+    const modal = document.getElementById('viewOrderModal');
+    const content = document.getElementById('viewOrderContent');
 
-// Fetch work order details using AJAX
-fetch(`/dashboard/work-orders/get-details?id=${orderId}`)
-    .then(response => response.json())
-    .then(data => {
-        // Populate the modal with work order details
-        document.getElementById('viewCustomer').textContent = data.company_name;
-        document.getElementById('viewCustomerAddress').textContent = data.address;
-        document.getElementById('viewCustomerPhone').textContent = data.phone;
-        document.getElementById('viewCustomerEmail').textContent = data.email;
-        document.getElementById('viewTitle').textContent = data.title;
-        document.getElementById('viewDescription').textContent = data.description;
-        document.getElementById('viewScheduledDate').textContent = formatDate(data.scheduled_date);
-        document.getElementById('viewScheduledTime').textContent = formatTime(data.scheduled_time);
-        document.getElementById('viewTechnician').textContent = data.tech_name || 'Unassigned';
-        document.getElementById('viewCreatedAt').textContent = formatDateTime(data.created_at);
+    const techModal = document.getElementById('technicianDetailsModal');
+    techModal.classList.add('hidden');
 
-        // Set Status with appropriate styling
-        const statusElem = document.getElementById('viewStatus');
-        statusElem.textContent = data.status.replace('_', ' ').toUpperCase();
-        statusElem.className = 'mt-1 p-2 rounded-full text-sm inline-block';
+    // Fetch work order details using AJAX
+    fetch(`/dashboard/work-orders/get-details?id=${orderId}`)
+        .then(response => response.json())
+        .then(data => {
+            // Populate the modal with work order details
+            document.getElementById('viewCustomer').textContent = data.company_name;
+            document.getElementById('viewCustomerAddress').textContent = data.address;
+            document.getElementById('viewCustomerPhone').textContent = data.phone;
+            document.getElementById('viewCustomerEmail').textContent = data.email;
+            document.getElementById('viewTitle').textContent = data.title;
+            document.getElementById('viewDescription').textContent = data.description;
+            document.getElementById('viewScheduledDate').textContent = formatDate(data.scheduled_date);
+            document.getElementById('viewScheduledTime').textContent = formatTime(data.scheduled_time);
+            document.getElementById('viewTechnician').textContent = data.tech_name || 'Unassigned';
+            document.getElementById('viewCreatedAt').textContent = formatDateTime(data.created_at);
 
-        const statusColors = getStatusColor(data.status);
-        statusElem.classList.add(statusColors.bg, statusColors.text);
+            // Set Status with appropriate styling
+            const statusElem = document.getElementById('viewStatus');
+            statusElem.textContent = data.status.replace('_', ' ').toUpperCase();
+            statusElem.className = 'mt-1 p-2 rounded-full text-sm inline-block';
 
-        // Set Priority with appropriate styling
-        const priorityElem = document.getElementById('viewPriority');
-        priorityElem.textContent = data.priority.toUpperCase();
-        priorityElem.className = 'mt-1 p-2 rounded-full text-sm inline-block';
-        
-        const priorityColors = getStatusColor(data.priority);
-        priorityElem.classList.add(priorityColors.bg, priorityColors.text);
+            const statusColors = getStatusColor(data.status);
+            statusElem.classList.add(statusColors.bg, statusColors.text);
 
-        // Open the modal
-        modal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
-    });
+            // Set Priority with appropriate styling
+            const priorityElem = document.getElementById('viewPriority');
+            priorityElem.textContent = data.priority.toUpperCase();
+            priorityElem.className = 'mt-1 p-2 rounded-full text-sm inline-block';
+            
+            const priorityColors = getStatusColor(data.priority);
+            priorityElem.classList.add(priorityColors.bg, priorityColors.text);
+
+            // Open the modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
 }
 
 // Helper functions for date formatting
@@ -102,9 +106,11 @@ window.onclick = function(event) {
     
     if (event.target == createModal) {
         createModal.classList.add('hidden');
+        document.body.style.overflow = '';
     }
     
     if (event.target == detailsModal) {
         detailsModal.classList.add('hidden');
+        document.body.style.overflow = '';
     }
 }

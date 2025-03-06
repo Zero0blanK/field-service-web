@@ -1,6 +1,6 @@
 <!-- Work Order Details Modal -->
-<div id="viewOrderModal" class="hidden fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-0 border-0 w-full max-w-4xl shadow-2xl rounded-lg bg-white overflow-hidden">
+<div id="viewOrderModal" class="hidden fixed inset-0 bg-gray-600/30 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+    <div class="relative my-8 mx-auto p-0 border-0 w-full max-w-4xl shadow-2xl rounded-lg bg-white overflow-hidden">
         <!-- Header -->
         <div class="relative bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-white">
             <button onclick="document.getElementById('viewOrderModal').classList.add('hidden'); document.body.style.overflow = 'auto';" 
@@ -8,7 +8,7 @@
                 <i class="fas fa-times text-lg"></i>
             </button>
             <h2 class="text-2xl font-bold mb-1" id="viewTitle"></h2>
-            <div class="flex items-center mt-2">
+            <div class="flex items-center mt-2 gap-[15px]">
                 <span id="viewPriority" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium mr-3"></span>
                 <span id="viewStatus" class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium"></span>
             </div>
@@ -70,30 +70,7 @@
                     <div class="prose max-w-none text-gray-800" id="viewDescription"></div>
                 </div>
             </div>
-            
-            <!-- Footer Actions -->
-            <div class="border-t border-gray-200 mt-6 pt-6 flex flex-col sm:flex-row justify-between items-center">
-                <div class="flex space-x-2 mb-4 sm:mb-0">
-                    <button class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors flex items-center">
-                        <i class="fas fa-edit mr-2"></i>
-                        Edit Order
-                    </button>
-                    <button class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300 transition-colors flex items-center">
-                        <i class="fas fa-print mr-2"></i>
-                        Print
-                    </button>
-                </div>
-                <div class="flex space-x-2">
-                    <button class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700 transition-colors flex items-center">
-                        <i class="fas fa-check mr-2"></i>
-                        Complete Order
-                    </button>
-                    <button class="px-4 py-2 bg-gray-200 text-red-600 rounded-md hover:bg-gray-300 transition-colors flex items-center">
-                        <i class="fas fa-ban mr-2"></i>
-                        Cancel
-                    </button>
-                </div>
-            </div>
+        
         </div>
     </div>
 </div>

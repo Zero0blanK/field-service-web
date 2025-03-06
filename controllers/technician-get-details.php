@@ -1,5 +1,6 @@
 <?php
 
+
 $config = require_once 'config.php';
 $db = new dbConnection($config['database']);
 
@@ -28,7 +29,7 @@ try {
     )->fetch();
 
     if (!$technician) {
-        die('Error fetching technician details: ' . $conn->error);
+        die('Error fetching technician details');
     }
 
     // Get technician's work orders
@@ -45,17 +46,18 @@ try {
         ORDER BY 
             wo.created_at DESC
     ",[':tech_id' => $_GET['id']]
-    )->fetchAll();
-
-    if (!$work_orders) {
-        die('Error fetching work orders: ' . $conn->error);
-    }
-
+    )->fetchAll() ?? [];
+    
     // Count active orders
     $active_orders_count = 0;
-    $orders_data = [];
+
+    if (is_array($work_orders)) {
+        $orders_data = $work_orders;
+    } else {
+        $orders_data = []; // Default empty array to prevent errors
+    }
+
     foreach ($work_orders as $order) {
-        $orders_data[] = $order;
         if ($order['status'] != 'completed' && $order['status'] != 'cancelled') {
             $active_orders_count++;
         }
