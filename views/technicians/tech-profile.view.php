@@ -87,7 +87,8 @@
             <!-- Profile Update Form -->
             <div class="bg-white shadow-md rounded-lg p-6">
                 <h2 class="text-2xl font-bold mb-4">Update Profile</h2>
-                <form id="profileUpdateForm">
+                <form id="profileUpdateForm" method="POST">
+                    <input type="hidden" name="password" value="<?php echo htmlspecialchars($profile['password']); ?>">
                     <div class="grid md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-gray-700 text-sm font-bold mb-2">Full Name</label>
@@ -144,7 +145,7 @@
                     </div>
 
                     <div class="mt-6 flex justify-end">
-                        <button type="submit" 
+                        <button type="submit" name="update_profile"
                                 class="bg-blue-500 text-white px-6 py-2 rounded hover:bg-blue-600">
                             Update Profile
                         </button>

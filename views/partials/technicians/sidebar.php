@@ -30,7 +30,7 @@
         ],
         [
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M12 2.25a5.25 5.25 0 100 10.5 5.25 5.25 0 000-10.5zm0 9a3.75 3.75 0 110-7.5 3.75 3.75 0 010 7.5zM6.307 15.114a8.25 8.25 0 0111.386 0A5.982 5.982 0 0118 18c0 2.004-1.176 3.75-3 3.75H9c-1.824 0-3-1.746-3-3.75a5.982 5.982 0 01.307-2.886zM8.75 19.5c-.552 0-1-.672-1-1.5s.448-1.5 1-1.5h6.5c.552 0 1 .672 1 1.5s-.448 1.5-1 1.5H8.75z" clip-rule="evenodd"/></svg>',
-            'text' => 'Schedule',
+            'text' => 'Profile',
             'link' => '/technicians/profile'
         ],
     ];

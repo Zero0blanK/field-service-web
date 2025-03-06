@@ -1,7 +1,7 @@
 <?php
 $config = require_once 'config.php';
 $db = new dbConnection($config['database']);
-require_once 'includes/register-user.php';
+require_once 'register-user.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['register'])) {
     registerUser($db, [

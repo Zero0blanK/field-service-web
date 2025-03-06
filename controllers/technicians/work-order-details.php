@@ -8,8 +8,6 @@ $db = new dbConnection($config['database']);
 define("ROOT", dirname(__DIR__));
 define("VIEWS", ROOT . "/../views/");
 
-// checkTechnicianAccess();
-
 // Validate order ID
 if (!isset($_GET['id']) || empty($_GET['id'])) {
     die('Order not found!');

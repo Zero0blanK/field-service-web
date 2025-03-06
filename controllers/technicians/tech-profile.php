@@ -8,12 +8,53 @@ $db = new dbConnection($config['database']);
 define("ROOT", dirname(__DIR__));
 define("VIEWS", ROOT . "/../views/");
 
-// checkTechnicianAccess();
-
 $userId = $_SESSION['user_id'];
-
 $tech_id = $db->query("SELECT tech_id FROM technicians WHERE user_id = :user_id", [$userId])->fetch()['tech_id'];
 
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['update_profile'])) {
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $phone = $_POST['phone'];
+    $address = $_POST['address'];
+    $city = $_POST['city'];
+    $zipcode = $_POST['zipcode'];
+    $password = $_POST['password'];
+    $current_password = $_POST['current_password'];
+    $new_password = $_POST['new_password'];
+
+    if ((!empty($current_password) && !empty($new_password)) && password_verify($current_password, $password)) {
+        $password = password_hash($new_password, PASSWORD_DEFAULT);
+
+        $db->query("
+            UPDATE users 
+            SET password = :password
+            WHERE user_id = :user_id",
+            [
+                ':password' => $password,
+                ':user_id' => $userId
+            ]
+        );
+    }
+
+    $db->query("
+        UPDATE users 
+        SET name = :name, email = :email, phone = :phone, address = :address, city = :city, zipcode = :zipcode, password = :password
+        WHERE user_id = :user_id",
+        [
+            ':name' => $name,
+            ':email' => $email,
+            ':phone' => $phone,
+            ':address' => $address,
+            ':city' => $city,
+            ':zipcode' => $zipcode,
+            ':password' => $password,
+            ':user_id' => $userId
+        ]
+    );
+    
+    header("Location: /technicians/profile");
+    exit();
+}
 
 // Fetch technician profile details
 $profile = $db->query("

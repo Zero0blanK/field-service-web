@@ -15,6 +15,18 @@
             background: linear-gradient(to right, var(--primary-color), #8b5cf6);
             color: white;
         }
+        /* Dropdown styles */
+        .dropdown-menu {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .dropdown-menu.open {
+            max-height: 200px;
+        }
+        .dropdown-toggle svg.transform {
+            transform: rotate(180deg);
+        }
     </style>
     <?php
     $menuItems = [
@@ -26,7 +38,17 @@
         [
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M5.625 1.5c-1.036 0-1.875.84-1.875 1.875v17.25c0 1.035.84 1.875 1.875 1.875h12.75c1.035 0 1.875-.84 1.875-1.875V12.75A3.75 3.75 0 0016.5 9h-1.875a1.875 1.875 0 01-1.875-1.875V5.25A3.75 3.75 0 009 1.5H5.625zM7.5 15a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5A.75.75 0 017.5 15zm.75 2.25a.75.75 0 000 1.5H12a.75.75 0 000-1.5H8.25z" clip-rule="evenodd" /></svg>',
             'text' => 'Work Orders',
-            'link' => '/dashboard/work-orders'
+            'isDropdown' => true,
+            'submenu' => [
+                [
+                    'text' => 'Work Order List',
+                    'link' => '/dashboard/work-orders'
+                ],
+                [
+                    'text' => 'Assign Technician',
+                    'link' => '/dashboard/work-orders/assign-technician'
+                ]
+            ]
         ],
         [
             'icon' => '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M12.75 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM7.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM8.25 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM9.75 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM10.5 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM12.75 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM14.25 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 17.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 15.75a.75.75 0 100-1.5.75.75 0 000 1.5zM15 12.75a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM16.5 13.5a.75.75 0 100-1.5.75.75 0 000 1.5z" /><path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 017.5 1.5h9a.75.75 0 01.75.75v14.25a2.25 2.25 0 002.25-2.25V6.31a.75.75 0 00-.22-.53l-2.25-2.25a.75.75 0 00-.53-.22H6.75A.75.75 0 016 3.75v-2.5zm9.56 14.47a.75.75 0 00.56-.72V3.75c0-.414-.336-.75-.75-.75H6.75a.75.75 0 00-.75.75v14.25c0 .414.336.75.75.75h10.5a2.25 2.25 0 001.56-.66z" clip-rule="evenodd" /></svg>',
@@ -70,12 +92,37 @@
             <!-- Navigation Menu -->
             <nav class="flex-grow overflow-y-auto py-4 px-4 space-y-2">
                 <?php foreach ($menuItems as $item): ?>
-                    <a href="<?= htmlspecialchars($item['link']) ?>" class="group flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-300 ease-in-out">
-                        <div class="text-gray-400 group-hover:text-indigo-600 transition-colors duration-300">
-                            <?= $item['icon'] ?>
+                    <?php if (isset($item['isDropdown']) && $item['isDropdown']): ?>
+                        <!-- Dropdown Menu Item -->
+                        <div class="dropdown">
+                            <button class="dropdown-toggle w-full flex items-center justify-between space-x-3 px-4 py-2.5 text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-300 ease-in-out group">
+                                <div class="flex items-center space-x-3">
+                                    <div class="text-gray-400 group-hover:text-indigo-600 transition-colors duration-300">
+                                        <?= $item['icon'] ?>
+                                    </div>
+                                    <span class="text-sm font-medium"><?= htmlspecialchars($item['text']) ?></span>
+                                </div>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 transition-transform duration-300 dropdown-arrow">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                                </svg>
+                            </button>
+                            <div class="dropdown-menu ml-7 pl-3 border-l border-gray-200">
+                                <?php foreach ($item['submenu'] as $subItem): ?>
+                                    <a href="<?= htmlspecialchars($subItem['link']) ?>" class="flex items-center space-x-3 px-4 py-2 text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-300 ease-in-out">
+                                        <span class="text-sm"><?= htmlspecialchars($subItem['text']) ?></span>
+                                    </a>
+                                <?php endforeach; ?>
+                            </div>
                         </div>
-                        <span class="text-sm font-medium"><?= htmlspecialchars($item['text']) ?></span>
-                    </a>
+                    <?php else: ?>
+                        <!-- Regular Menu Item -->
+                        <a href="<?= htmlspecialchars($item['link']) ?>" class="group flex items-center space-x-3 px-4 py-2.5 text-gray-600 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-all duration-300 ease-in-out">
+                            <div class="text-gray-400 group-hover:text-indigo-600 transition-colors duration-300">
+                                <?= $item['icon'] ?>
+                            </div>
+                            <span class="text-sm font-medium"><?= htmlspecialchars($item['text']) ?></span>
+                        </a>
+                    <?php endif; ?>
                 <?php endforeach; ?>
             </nav>
 
@@ -87,7 +134,22 @@
                     </svg>
                     <span class="text-sm font-medium">Logout</span>
                 </a>
-                </div>
+            </div>
         </div>
     </div>
 
+    <!-- JavaScript for dropdown functionality -->
+    <script>
+        const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+        
+        dropdownToggles.forEach(toggle => {
+            toggle.addEventListener('click', function() {
+                const dropdown = this.nextElementSibling;
+                const arrow = this.querySelector('.dropdown-arrow');
+                
+                // Toggle dropdown visibility
+                dropdown.classList.toggle('open');
+                arrow.classList.toggle('transform');
+            });
+        });
+    </script>
