@@ -1,6 +1,6 @@
 <?php
 define('BASE_URL', '/field-service-web/employee/source-code');
-define('SPECIFIC_URL', '/field-service-web/employee')
+define('SPECIFIC_URL', '/field-service-web/employee');
 ?>
 <link rel="stylesheet" href="<?= BASE_URL ?>/StyleSheet/sidebar.css" />
 <link rel="stylesheet" href="<?= BASE_URL ?>/StyleSheet/shoelace/cdn/themes/dark.css" />
@@ -46,15 +46,6 @@ define('SPECIFIC_URL', '/field-service-web/employee')
       <sl-icon name="layout-sidebar"></sl-icon>
     </sl-button>
 
-    <script>
-      const drawer = document.querySelector('.drawer-header-actions');
-      const openButton = drawer.nextElementSibling;
-      const closeButton = drawer.querySelector('sl-button[variant="primary"]');
-      const newWindowButton = drawer.querySelector('.new-window');
-
-      openButton.addEventListener('click', () => drawer.show());
-      closeButton.addEventListener('click', () => drawer.hide());
-      newWindowButton.addEventListener('click', () => window.open(location.href));
-    </script>
+    <script src="<?= BASE_URL ?>/JavaScript/sidebar.js"></script>
   </nav>
 </div>

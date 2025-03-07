@@ -50,7 +50,7 @@ include PROJECT_ROOT . "/Controllers/CredentialsValidator.php";
                     </sl-button>
                     <br>
                     <div style="font-size: 14px;">
-                        <p style="padding: 0px; margin: 0px;">Don't have an account? <a style="text-decoration: none;" href="<?= BASE_URL ?>/Webpage/createAccount.php">Create one now</a></p>
+                        <p style="padding: 0px; margin: 0px;">Don't have an account? <a style="text-decoration: none;" href="<?= BASE_URL ?>/Webpage/register.php">Create one now</a></p>
                     </div>
                 </div>
             </div>

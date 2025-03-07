@@ -36,17 +36,71 @@ class Credentials
             $_SESSION['name'] = $user["name"];
             $_SESSION['role'] = $user["role"];
 
+            error_log("Login successful");
+
             // Redirect URL
             $redirectUrl = BASE_URL_VALIDATOR . "/Webpage/newRequest.php";
 
             // Send success response
             header("Content-Type: application/json");
-            echo json_encode(["status" => "success", "message" => "Login successful", "redirect" => $redirectUrl]);
+            echo json_encode(["status" => "success", "message" => "Registration successful", "redirect" => $redirectUrl]);
             exit;
         } catch (Exception $e) {
             error_log("Login error: " . $e->getMessage());
             header("Content-Type: application/json");
             echo json_encode(["status" => "error", "message" => "An error occurred while processing login."]);
+            exit;
+        }
+    }
+
+    public function Register($fullName, $email, $phone, $address, $city, $zipconde, $password, $role, $createdAt, $company, $userType)
+    {
+        try {
+            error_log("Register function called");
+
+            $stmt1 = $this->conn->prepare("SELECT user_id FROM users WHERE email = :email");
+            $stmt1->execute(['email' => $email]);
+            $user = $stmt1->fetch(PDO::FETCH_ASSOC);
+
+            if ($user) {
+                header("Content-Type: application/json");
+                echo json_encode(["status" => "error", "message" => "Email already exists"]);
+                exit;
+            }
+
+            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+
+            $stmt2 = $this->conn->prepare("INSERT INTO users (name, email, phone, address, city, zipcode, password, role, created_at) VALUES (:name, :email, :phone, :address, :city, :zipcode, :password, :role, :created_at)");
+            $stmt2->execute(['name' => $fullName, 'email' => $email, 'phone' => $phone, 'address' => $address, 'city' => $city, 'zipcode' => $zipconde, 'password' => $passwordHash, 'role' => $role, 'created_at' => $createdAt]);
+            $user_id = $this->conn->lastInsertId();
+
+            if ($user_id) {
+                $stmt3 = $this->conn->prepare("INSERT INTO customers (user_id, company_name) VALUES (:user_id, :company)");
+                $stmt3->execute(['user_id' => $user_id, 'company' => $company]);
+            }
+
+            $stmt3 = $this->conn->prepare("SELECT user_id, name, role FROM users WHERE email = :email");
+            $stmt3->execute(['email' => $email]);
+            $users = $stmt3->fetch(PDO::FETCH_ASSOC);
+
+            // Store session data
+            $_SESSION['user_id'] = $users["user_id"];
+            $_SESSION['name'] = $users["name"];
+            $_SESSION['role'] = $users["role"];
+
+            error_log("Login successful");
+
+            // Redirect URL
+            $redirectUrl = BASE_URL_VALIDATOR . "/Webpage/newRequest.php";
+
+            // Send success response
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "success", "message" => "Registration successful", "redirect" => $redirectUrl]);
+            exit;
+        } catch (Exception $e) {
+            error_log("Registration error: " . $e->getMessage());
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "error", "message" => "An error occurred while processing registration."]);
             exit;
         }
     }
@@ -67,6 +121,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $customer_Password = trim($data["password"] ?? "");
             
             $credentialsHandler->Login($customer_Email, $customer_Password);
+        } catch (Exception $e) {
+            error_log("Transaction failed: " . $e->getMessage());
+            header('Content-Type: application/json');
+            echo json_encode(["status" => "error", "message" => "Failed to process the request.", "error" => $e->getMessage()]);
+            exit;
+        }
+    } elseif (isset($data["action"]) && $data["action"] === "register") {
+        try {
+            error_log("Register request received");
+
+            $conn = Database::getInstance();
+            $credentialsHandler = new Credentials($conn);
+
+            $userType = trim($data["userType"] ?? "");
+            $fullName = trim($data["fullname"] ?? "");
+            $email = trim($data["email"] ?? "");
+            $phone = trim($data["phone"] ?? "");
+            $address = trim($data["address"] ?? "");
+            $company = trim($data["company"] ?? "");
+            $city = trim($data["city"] ?? "");
+            $zip = trim($data["zip"] ?? "");
+            $password = trim($data["password"] ?? "");
+            
+            // Default values
+            $role = "customer";
+            $createdAt = date("Y-m-d H:i:s");
+
+            $credentialsHandler->Register($fullName, $email, $phone, $address, $city, $zip, $password, $role, $createdAt, $company, $userType);
+
         } catch (Exception $e) {
             error_log("Transaction failed: " . $e->getMessage());
             header('Content-Type: application/json');

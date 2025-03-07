@@ -1,9 +1,18 @@
 <?php
+session_start();
 define('PROJECT_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/source-code');
 define('BASE_URL_STYLE', '/field-service-web/employee/source-code');
 
 include PROJECT_ROOT . "/Controllers/newRequestController.php";
 include PROJECT_ROOT . "/Controllers/newRequestRecieverController.php";
+
+$user_id = $_SESSION['user_id'];
+$user_name = $_SESSION['name'];
+$user_role = $_SESSION['role'];
+
+if ($user_id === "" && $user_name === "" && $user_role === "") {
+    header("Location: " . PROJECT_ROOT . "/Webpage/login.php");
+}
 ?>
 
 <!DOCTYPE html>

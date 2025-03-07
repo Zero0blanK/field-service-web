@@ -1,5 +1,6 @@
 <?php
 define('PROJECT_DB2', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/source-code');
+define('BASE_URL_LOGOUT', '/field-service-web/employee/source-code');
 include_once PROJECT_DB2 . "/Database/DBConnection.php";
 
 class WorkOrder
@@ -64,11 +65,34 @@ class WorkOrder
             throw new Exception("An error occurred while deleting customer data.");
         }
     }
+    public function Logout($confirmation)
+    {
+        try {
+            if($confirmation) {
+                session_unset();
+                session_destroy();
+            }
+            // Redirect URL
+            $redirectUrl = BASE_URL_LOGOUT . "/Webpage/login.php";
+
+            // Send success response
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "success", "message" => "Registration successful", "redirect" => $redirectUrl]);
+            exit;
+        } catch (Exception $e) {
+            error_log("Login error: " . $e->getMessage());
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "error", "message" => "An error occurred while processing login."]);
+            exit;
+        }
+    }
 }
 
 // Process request
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $action = $_POST["action"] ?? "";
+    $json = file_get_contents("php://input");
+    $data = json_decode($json, true);
 
     if ($action === "create") {
         try {
@@ -136,6 +160,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             error_log("Transaction failed: " . $e->getMessage());
             header('Content-Type: application/json');
             echo json_encode(["status" => "error", "message" => "Failed to Delete. Please try again."]);
+        }
+    } elseif (isset($data["action"]) && $data["action"] === "logout") {
+        try {
+            error_log("logout Request received");
+
+            $credentialsHandler = new WorkOrder($conn);
+
+            $confirmation = trim($data["confirmation"] ?? "");
+
+            $credentialsHandler->Logout($confirmation);
+
+        } catch (Exception $e) {
+            error_log("Transaction failed: " . $e->getMessage());
+            header('Content-Type: application/json');
+            echo json_encode(["status" => "error", "message" => "Failed to process the request.", "error" => $e->getMessage()]);
+            exit;
         }
     }
 }
