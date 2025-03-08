@@ -1,6 +1,6 @@
 <?php
-define('PROJECT_DB2', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/source-code');
-include_once PROJECT_DB2 . "/Database/DBConnection.php";
+define('PROJECT_DB3', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/source-code');
+include_once PROJECT_DB3 . "/Database/DBConnection.php";
 
 class WorkOrder
 {

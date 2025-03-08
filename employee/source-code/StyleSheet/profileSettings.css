@@ -27,10 +27,10 @@
   }
   
   .filterBar {
-    padding: 20px;
-    width: 100vw;
+    width: 98vw;
     display: flex;
     justify-content: center;
+    padding: 20px 0px;
   }
   
   .filterBar1 {
@@ -39,8 +39,8 @@
     justify-content: flex-start;
     align-items: flex-start;
     border: solid var(--sl-input-border-width) var(--sl-input-border-color);
-    width: 50%;
-    padding: 10px;
+    width: 48%;
     border-radius: 10px;
+    padding: 20px;
   }
   

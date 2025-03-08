@@ -81,13 +81,9 @@ AGSOY LIST [
     5. Technician Profile Management
         - Allow technicians to update their availability status.
         - Update personal details (Name, Contact Info, Specialty).
-
 ]
 
 
 ## Work To Do!
-> Adjust newRequestCreate (Implement the user_id)
-> Adjust newRequestCancel (Implement the user_id)
-> Adjust newRequestFilter (Implement the user_id)
-> Adjust newRequestController (Implement the user_id)
-> Adjust newRequestRecieverController (Implement the user_id)
+SETTINGS - WORKING ON IT!
+PREFERENCES - WORKING ON IT!

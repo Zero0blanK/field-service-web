@@ -1,9 +1,8 @@
 <?php
 session_start();
-
-define('PROJECT_DB2', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/source-code');
-define('BASE_URL_VALIDATOR', '/field-service-web/employee/source-code');
-include_once PROJECT_DB2 . "/Database/DBConnection.php";
+define('PROJECT_DB1', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/source-code');
+define('URL_1', '/field-service-web/employee/source-code');
+include_once PROJECT_DB1 . "/Database/DBConnection.php";
 
 class Credentials
 {
@@ -44,7 +43,7 @@ class Credentials
             error_log("Login successful");
 
             // Redirect URL
-            $redirectUrl = BASE_URL_VALIDATOR . "/Webpage/newRequest.php";
+            $redirectUrl = URL_1 . "/Webpage/newRequest.php";
 
             // Send success response
             header("Content-Type: application/json");
@@ -101,7 +100,7 @@ class Credentials
             error_log("Login successful");
 
             // Redirect URL
-            $redirectUrl = BASE_URL_VALIDATOR . "/Webpage/newRequest.php";
+            $redirectUrl = URL_1 . "/Webpage/newRequest.php";
 
             // Send success response
             header("Content-Type: application/json");

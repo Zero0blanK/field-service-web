@@ -1,6 +1,6 @@
 <?php
-define('PROJECT_ROOT_DB', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/source-code');
-include PROJECT_ROOT_DB . "/Database/DBConnection.php";
+define('PROJECT_DB4', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/source-code');
+include PROJECT_DB4 . "/Database/DBConnection.php";
 
 class AppointmentManager
 {

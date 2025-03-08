@@ -1,20 +1,11 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coolant</title>
-
-  <!-- Load Shoelace -->
-  <script type="module" src="StyleSheet/shoelace/cdn/shoelace.js"></script>
-  <link rel="stylesheet" href="StyleSheet/shoelace/cdn/themes/light.css" />
-  <link rel="stylesheet" href="StyleSheet/shoelace/cdn/themes/dark.css" />
-  </style>
-</head>
-
-<body>
-  
-</body>
-
-</html>
+<?php 
+if (
+  !isset($_SESSION['user_id'], $_SESSION['name'], $_SESSION['role']) ||
+  empty($_SESSION['user_id']) ||
+  empty($_SESSION['name']) ||
+  empty($_SESSION['role'])
+) {
+  header("Location: /field-service-web/employee/source-code/Webpage/login.php");
+  exit();
+}
+?>

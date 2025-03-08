@@ -4,7 +4,6 @@ define('PROJECT_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/
 define('BASE_URL_STYLE', '/field-service-web/employee/source-code');
 
 include PROJECT_ROOT . "/Controllers/CredentialsLogout.php";
-//include PROJECT_ROOT . "/Controllers/newRequestRecieverController.php";
 
 if (
     !isset($_SESSION['user_id'], $_SESSION['name'], $_SESSION['role']) ||
@@ -15,7 +14,6 @@ if (
     header("Location: /field-service-web/employee/source-code/Webpage/login.php");
     exit();
 }
-
 ?>
 
 <!DOCTYPE html>
