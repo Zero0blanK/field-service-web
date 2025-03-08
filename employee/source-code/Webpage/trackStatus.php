@@ -5,6 +5,7 @@ define('BASE_URL_STYLE', '/field-service-web/employee/source-code');
 
 include PROJECT_ROOT . "/Controllers/trackStatusController.php";
 include PROJECT_ROOT . "/Controllers/newRequestRecieverController.php";
+include PROJECT_ROOT . "/Controllers/CredentialsLogout.php";
 
 // Check if session variables are set and not empty
 if (

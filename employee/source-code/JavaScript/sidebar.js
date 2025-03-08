@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function sendRequestData(data) {
     try {
-      const response = await fetch("newRequest.php", {
+      const response = await fetch(window.location.pathname, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -38,8 +38,6 @@ document.addEventListener("DOMContentLoaded", () => {
         console.log("Login failed:", result.message);
         closeButton.setAttribute("variant", "danger");
       }
-      
-      clearFields();
     } catch (error) {
       console.error("Error sending data:", error);
       closeButton.setAttribute("variant", "danger");

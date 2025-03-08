@@ -1,0 +1,46 @@
+.content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  
+  .topNavbar::part(base) {
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 20px;
+  }
+  
+  .topNavigationBar {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: center;
+    width: 86.5%;
+  }
+  
+  .filterBar {
+    padding: 20px;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .filterBar1 {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border: solid var(--sl-input-border-width) var(--sl-input-border-color);
+    width: 50%;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  

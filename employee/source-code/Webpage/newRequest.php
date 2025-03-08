@@ -3,6 +3,7 @@ session_start();
 define('PROJECT_ROOT', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/source-code');
 define('BASE_URL_STYLE', '/field-service-web/employee/source-code');
 
+include PROJECT_ROOT . "/Controllers/CredentialsLogout.php";
 include PROJECT_ROOT . "/Controllers/newRequestRecieverController.php";
 
 // Check if session variables are set and not empty
