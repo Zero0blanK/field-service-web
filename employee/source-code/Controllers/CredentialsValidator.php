@@ -28,6 +28,10 @@ class Credentials
                 echo json_encode(["status" => "error", "message" => "Invalid email or password"]);
                 exit;
             }
+            
+            $stmt4 = $this->conn->prepare("SELECT customer_id FROM customers WHERE user_id = :user_id");
+            $stmt4->execute(['user_id' => $user["user_id"]]);
+            $customerID = $stmt4->fetch(PDO::FETCH_ASSOC);
 
             error_log("Login successful");
 
@@ -35,6 +39,7 @@ class Credentials
             $_SESSION['user_id'] = $user["user_id"];
             $_SESSION['name'] = $user["name"];
             $_SESSION['role'] = $user["role"];
+            $_SESSION['customer_id'] = $customerID["customer_id"];
 
             error_log("Login successful");
 
@@ -83,10 +88,15 @@ class Credentials
             $stmt3->execute(['email' => $email]);
             $users = $stmt3->fetch(PDO::FETCH_ASSOC);
 
+            $stmt4 = $this->conn->prepare("SELECT customer_id FROM customers WHERE user_id = :user_id");
+            $stmt4->execute(['user_id' => $users["user_id"]]);
+            $customerID = $stmt4->fetch(PDO::FETCH_ASSOC);
+
             // Store session data
             $_SESSION['user_id'] = $users["user_id"];
             $_SESSION['name'] = $users["name"];
             $_SESSION['role'] = $users["role"];
+            $_SESSION['customer_id'] = $customerID["customer_id"];
 
             error_log("Login successful");
 

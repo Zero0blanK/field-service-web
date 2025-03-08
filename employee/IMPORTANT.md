@@ -43,18 +43,18 @@ AGSOY LIST [
             - assign_technician.php [Assign technician]
 
     CUSTOMER PAGE
-    1. Work Order Request Form
+    1. Work Order Request Form (DONE)
         - Create a form for customers to request work orders.
         - Fields: Service Type, Description, Preferred Date/Time, Address, Contact Info, etc.
         - Validate form inputs before submission.
         - Store the request in the database (work_orders table).
 
-    2. View Work Order History
+    2. View Work Order History (DONE)
         - Display a table of all past work orders.
-        - Columns: Request Date, Status (Pending, Accepted, Rejected, Completed), Technician Assigned, etc.
+        - Columns: Request Date, Status (Pending, Accepted, Rejected, Completed),    Assigned, etc.
         - Filter/search work orders.
 
-    3. Track Work Order Status
+    3. Track Work Order Status (DONE)
         - Show real-time status updates (e.g., Pending, In Progress, Completed, Rejected).
         - Allow customers to cancel a work order before it's accepted.
 

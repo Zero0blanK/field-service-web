@@ -27,6 +27,7 @@
 }
 
 .filterBar {
+  padding: 20px;
   width: 100vw;
   display: flex;
   justify-content: center;
@@ -34,107 +35,11 @@
 
 .filterBar1 {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: flex-start;
-  align-items: flex-end;
+  align-items: flex-start;
   border: solid var(--sl-input-border-width) var(--sl-input-border-color);
-  width: 85%;
+  width: 50%;
   padding: 10px;
   border-radius: 10px;
-}
-
-.column {
-  padding-right: 10px;
-}
-
-.column1 {
-  padding: 0px;
-}
-
-.alert-countdown {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  flex-wrap: nowrap;
-  align-items: center;
-  width: 100%;
-}
-
-.requestTable {
-  margin-top: 10px;
-  display: flex;
-  justify-content: center;
-  width: 100vw;
-}
-
-.requestTable1 {
-  padding: 10px;
-  width: 85%;
-  border: solid var(--sl-input-border-width) var(--sl-input-border-color);
-  border-radius: 10px;
-  height: 450px;
-}
-
-/* Custom scrollbar */
-.requestTable1::-webkit-scrollbar {
-  width: 10px;
-}
-
-.requestTable1::-webkit-scrollbar-track {
-  background: var(--navbar-color);
-  border-radius: 10px;
-}
-
-.requestTable1::-webkit-scrollbar-thumb {
-  background: var(--optional-color);
-  border-radius: 10px;
-  transition: background 0.3s ease-in-out;
-}
-
-.requestTable1 table {
-  width: 100%;
-  border-collapse: collapse;
-  border: none;
-  height: auto;
-  border-radius: 5px;
-}
-
-.requestTable1 th {
-  color: #0ea5e9;
-  background: #1a1a1e;
-  font-weight: 400;
-  font-size: 12px;
-  padding: 4px 2px;
-  border: 0px;
-  border-bottom: 1px solid #36363b;
-}
-
-.requestTable1 tr:nth-child(even) td {
-  background-color: #1a1a1e;
-  color: var(--sl-input-label-color);
-  border: 0px;
-  border-bottom: 1px solid #36363b;
-}
-
-.requestTable1 tr:nth-child(odd) td {
-  background-color: var(--background-color);
-  color: var(--sl-input-label-color);
-  border: 0px;
-  border-bottom: 1px solid #36363b;
-}
-
-.requestTable1 td {
-  padding: 10px 4px;
-  transition: 0.3s ease-in-out;
-  font-size: 12px;
-  justify-content: center;
-}
-
-.centerDialog {
-  display: flex;
-  justify-items: center;
-  justify-content: center;
-  flex-direction: row;
-  align-items: stretch;
-  gap: 20px;
 }

@@ -19,13 +19,12 @@ class AppointmentManager
         try {
             $order = $order ?? $this->default_order;
             $stmt = $this->conn->prepare("SELECT
+                work_orders.order_id AS Ticket, 
                 work_orders.title AS Title, 
-                work_orders.description AS Description, 
-                work_orders.priority AS Priority, 
                 work_orders.status AS Status,
-                work_orders.scheduled_date AS Date,
-                work_orders.scheduled_time AS Time,
-                work_orders.location AS Address
+                work_orders.created_at AS Created,
+                users_technician.name AS Technician,
+                work_orders.completion_date AS Completion
             FROM work_orders
             LEFT JOIN technicians ON work_orders.tech_id = technicians.tech_id
             LEFT JOIN users AS users_technician ON technicians.user_id = users_technician.user_id
@@ -36,7 +35,7 @@ class AppointmentManager
             if (count($results) > 0) {
                 echo "<table border='1' class='work_orders-table'>";
                 echo "<tr>";
-                $headers = ['Title', 'Description', 'Priority', 'Status', 'Date', 'Time', 'Address'];
+                $headers = ['Ticket', 'Title', 'Status', 'Created', 'Technician', 'Completion'];
                 foreach ($headers as $columnName) {
                     echo "<th>" . htmlspecialchars(str_replace("_", " ", $columnName)) . "</th>";
                 }
@@ -65,44 +64,15 @@ class AppointmentManager
 
             // Ensure the query always has a valid ORDER BY
             if (!str_contains($query, "ORDER BY")) {
-                $query .= " ORDER BY work_orders.status ASC";
+                $query .= " ORDER BY work_orders.order_id ASC";
             }
 
             $this->fetchAppointments($query);
             exit;
         }
     }
-
-    public function fetchRequestID()
-    {
-        session_start(); // Ensure session is active
-        $fetchID = $_SESSION['customer_id']; // Retrieve customer ID again
-
-        try {
-            $stmt = $this->conn->prepare("
-            SELECT order_id, title
-            FROM work_orders
-            WHERE customer_id = :customer_id AND status = 'pending'
-            ORDER BY order_id ASC
-        ");
-            $stmt->execute(['customer_id' => $fetchID]);
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            header('Content-Type: application/json');
-            echo json_encode($results);
-        } catch (PDOException $e) {
-            echo json_encode(["error" => "Error fetching appointment IDs: " . $e->getMessage()]);
-        }
-    }
 }
 
-// Check if request is made to fetch appointment IDs
-if (isset($_GET['fetchRequestID'])) {
-    $conn = Database::getInstance();
-    $appointmentManager = new AppointmentManager($conn);
-    $appointmentManager->fetchRequestID(); // Calls the function to output JSON
-    exit; // Stop further execution
-}
 // Initialize the database connection
 $conn = Database::getInstance();
 $appointmentManager = new AppointmentManager($conn);
