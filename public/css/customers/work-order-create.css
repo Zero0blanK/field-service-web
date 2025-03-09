@@ -1,0 +1,15 @@
+
+.filterBar {
+  width: 680px;
+}
+
+.filterBar1 {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: solid var(--sl-input-border-width) var(--sl-input-border-color);
+  width: 100%;
+  padding: 20px;
+  border-radius: 10px;
+}

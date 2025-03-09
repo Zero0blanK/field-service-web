@@ -1,0 +1,180 @@
+/* General layout */
+.flex-1 {
+  flex: 1;
+}
+
+.topNavigationBar {
+  margin-bottom: 20px;
+}
+
+.filterBar {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.filterBar1 {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.column {
+  min-width: 180px;
+}
+
+/* Table styling */
+.work-order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.work-order-table th,
+.work-order-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.work-order-table th {
+  background-color: #f5f5f5;
+  font-weight: 600;
+  color: #333;
+}
+
+.work-order-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+/* Priority and status styling */
+.priority-high {
+  color: #d32f2f;
+  font-weight: bold;
+}
+
+.priority-normal {
+  color: #1976d2;
+}
+
+.priority-low {
+  color: #388e3c;
+}
+
+.status-pending {
+  background-color: #ffecb3;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #996000;
+}
+
+.status-assigned {
+  background-color: #bbdefb;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #0d47a1;
+}
+
+.status-in-progress {
+  background-color: #c8e6c9;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #1b5e20;
+}
+
+.status-completed {
+  background-color: #d1c4e9;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #4527a0;
+}
+
+.status-cancelled {
+  background-color: #ff3636;
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: #616161;
+}
+
+/* Button styling */
+.work-order-table sl-button {
+  margin-right: 5px;
+}
+
+.no-records {
+  text-align: center;
+  padding: 20px;
+  color: #757575;
+}
+
+/* Work order details dialog styling */
+.details-container {
+  padding: 10px;
+}
+
+.details-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 10px;
+}
+
+.details-header h3 {
+  margin: 0;
+}
+
+.details-section {
+  margin-bottom: 20px;
+}
+
+.details-section h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  color: #1976d2;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 5px;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
+}
+
+.detail-item {
+  margin-bottom: 10px;
+}
+
+.description-box {
+  background-color: #f5f5f5;
+  padding: 15px;
+  border-radius: 4px;
+  white-space: pre-line;
+}
+
+.tech-details {
+  background-color: #e8f5e9;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .filterBar1 {
+      flex-direction: column;
+  }
+  
+  .column {
+      width: 100%;
+  }
+  
+  .work-order-table {
+      font-size: 14px;
+  }
+}

@@ -1,0 +1,77 @@
+.card-container {
+  max-width: 800px;
+}
+
+.card {
+  border-radius: 10px;
+  border: solid var(--sl-input-border-width) var(--sl-input-border-color);
+  padding: 2rem;
+  margin-top: 1.5rem;
+}
+
+.card-header {
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #3a4255;
+  padding-bottom: 1rem;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #27BAFD;
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.account-type {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.form-header {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1.5rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.form-group {
+  margin-bottom: 0.5rem;
+}
+
+.password-group {
+  position: relative;
+}
+
+.password-hint {
+  display: block;
+  margin-top: 0.25rem;
+  font-size: 0.75rem;
+}
+
+.form-actions {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+sl-alert {
+  margin-bottom: 1rem;
+}
+
+sl-button::part(base) {
+  --sl-button-font-size-medium: 1rem;
+  --sl-button-height-medium: 2.75rem;
+}
+
+sl-input[disabled]::part(base) {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
