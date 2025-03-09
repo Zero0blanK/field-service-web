@@ -94,6 +94,33 @@ class AppointmentManager
             echo json_encode(["error" => "Error fetching appointment IDs: " . $e->getMessage()]);
         }
     }
+
+    public function fetchTechnicianID()
+    {
+        try {
+            $stmt = $this->conn->prepare("
+            SELECT tech_id, name
+            FROM technicians
+            JOIN users ON technicians.user_id = users.user_id
+            ORDER BY tech_id ASC");
+            
+            $stmt->execute();
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            header('Content-Type: application/json');
+            echo json_encode($results);
+        } catch (PDOException $e) {
+            echo json_encode(["error" => "Error fetching appointment IDs: " . $e->getMessage()]);
+        }
+    }
+}
+
+// Check if request is made to fetch appointment IDs
+if (isset($_GET['fetchTechnicianID'])) {
+    $conn = Database::getInstance();
+    $appointmentManager = new AppointmentManager($conn);
+    $appointmentManager->fetchTechnicianID(); // Calls the function to output JSON
+    exit; // Stop further execution
 }
 
 // Check if request is made to fetch appointment IDs

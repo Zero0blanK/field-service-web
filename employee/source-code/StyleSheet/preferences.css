@@ -27,9 +27,9 @@
   }
   
   .filterBar {
-    padding: 20px;
+    padding: 100px 0px;
     width: 100vw;
-    display: flex;
+    display: flex;  
     justify-content: center;
   }
   

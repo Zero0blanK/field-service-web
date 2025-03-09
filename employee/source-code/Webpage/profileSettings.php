@@ -29,6 +29,7 @@ if (
 
 <body>
     <script src="<?= BASE_URL_STYLE ?>/JavaScript/profileSettings/profileSettingsFunctions.js"></script>
+    <script src="<?= BASE_URL_STYLE ?>/JavaScript/profileSettings/profileSettingsDataRetrieve.js"></script>
     <script src="<?= BASE_URL_STYLE ?>/JavaScript/profileSettings/profileSettingsSender.js"></script>
     <div class="content">
         <div class="topNavigationBar">

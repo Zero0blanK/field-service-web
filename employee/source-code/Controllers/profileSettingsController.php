@@ -1,7 +1,7 @@
 <?php
-define('PROJECT_DB1', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/source-code');
+define('PROJECT_DB5', $_SERVER['DOCUMENT_ROOT'] . '/field-service-web/employee/source-code');
 define('URL_1', '/field-service-web/employee/source-code');
-include_once PROJECT_DB1 . "/Database/DBConnection.php";
+include_once PROJECT_DB5 . "/Database/DBConnection.php";
 
 class ProfileSettings
 {
@@ -40,6 +40,45 @@ class ProfileSettings
             exit;
         }
     }
+    public function Retrieve($userID) {
+        try {
+            if (!isset($userID)) {
+                throw new Exception("User ID not set");
+            }
+
+            $stmt1 = $this->conn->prepare("SELECT name, email, phone, address, city, zipcode FROM users WHERE user_id = :user_id");
+            $stmt1->execute(['user_id' => $userID]);
+            $result = $stmt1->fetch(PDO::FETCH_ASSOC);
+
+            if (!$result) {
+                header("Content-Type: application/json");
+                echo json_encode(["status" => "success", "message" => "No data found.", "name" => "", "email" => "", "phone" => "", "address" => "", "city" => "", "zip" => ""]);
+                exit;
+            } else {
+                $stmt2 = $this->conn->prepare("SELECT company_name FROM customers WHERE user_id = :user_id");
+                $stmt2->execute(['user_id' => $userID]);
+                $result2 = $stmt2->fetch(PDO::FETCH_ASSOC);
+
+                if(!$result2) {
+                    header("Content-Type: application/json");
+                    echo json_encode(["status" => "success", "message" => "No data found.", "name" => $result['name'], "email" => $result['email'], "phone" => $result['phone'], "address" => $result['address'], "city" => $result['city'], "zip" => $result['zipcode'], "company" => ""]);
+                    exit;
+                }
+            }
+
+            error_log("Retrieval successful");
+
+            // Send success response
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "success", "message" => "Retrieval successful, data found.", "name" => $result['name'], "email" => $result['email'], "phone" => $result['phone'], "address" => $result['address'], "city" => $result['city'], "zip" => $result['zipcode'], "company" => $result2['company_name']]);
+            exit;
+        } catch (Exception $e) {
+            error_log("Registration error: " . $e->getMessage());
+            header("Content-Type: application/json");
+            echo json_encode(["status" => "error", "message" => "An error occurred while processing Retrieval."]);
+            exit;
+        }
+    }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -64,6 +103,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
             $credentialsHandler->Update($fullName, $email, $phone, $address, $city, $zip, $password, $company);
 
+        } catch (Exception $e) {
+            error_log("Transaction failed: " . $e->getMessage());
+            header('Content-Type: application/json');
+            echo json_encode(["status" => "error", "message" => "Failed to process the request.", "error" => $e->getMessage()]);
+            exit;
+        }
+    } elseif (isset($data["action"]) && $data["action"] === "retrieve") {
+        try {
+            error_log("Retrieve request received");
+
+            $conn = Database::getInstance();
+            $credentialsHandler = new ProfileSettings($conn);
+
+            $userID = $_SESSION["user_id"];
+
+            $credentialsHandler->Retrieve($userID);
         } catch (Exception $e) {
             error_log("Transaction failed: " . $e->getMessage());
             header('Content-Type: application/json');
