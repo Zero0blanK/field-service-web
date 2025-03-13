@@ -120,6 +120,7 @@ $unassigned_orders = $db->query(
     "SELECT 
         wo.*, 
         c.company_name,
+        u.name AS customer_name,
         u.city AS customer_city
     FROM 
         work_orders wo

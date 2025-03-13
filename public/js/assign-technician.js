@@ -27,7 +27,6 @@ async function showAvailableTechs(orderId, scheduleDate) {
                 </div>
                 <div>
                     <h4 class="font-medium text-lg mb-2">Customer Details</h4>
-                    <p class="text-m mb-1"><span class="font-medium">Company:</span> ${orderDetails.company_name}</p>
                     <p class="text-m mb-1"><span class="font-medium">Customer Name:</span> ${orderDetails.customer_name}</p>
                     <p class="text-m mb-1"><span class="font-medium">Address:</span> ${orderDetails.address}</p>
                     <p class="text-m mb-1"><span class="font-medium">City:</span> ${orderDetails.customer_city}</p>
@@ -38,7 +37,7 @@ async function showAvailableTechs(orderId, scheduleDate) {
 
                     </p>
                     <p class="text-m mb-1"><span class="font-medium">Preferred Contact Method:</span> 
-                        ${orderDetails.preferred_contact_method.charAt(0).toUpperCase() + orderDetails.preferred_contact_method.slice(1) || 'Not specified'}
+                        ${orderDetails.preferred_contact_method ? orderDetails.preferred_contact_method.charAt(0).toUpperCase() + orderDetails.preferred_contact_method.slice(1) : 'Not specified'}
                     </p>
                     </div>
             </div>

@@ -30,6 +30,14 @@
         <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12">
             <div class="w-full max-w-md">
                 <div class="bg-white rounded-2xl custom-shadow p-8 space-y-6">
+                    <?php if (isset($_SESSION['error'])): ?>
+                        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4">
+                            <?php 
+                            echo $_SESSION['error'];
+                            unset($_SESSION['error']);
+                            ?>
+                        </div>
+                    <?php endif; ?>
                     <?php if (isset($_SESSION['success'])): ?>
                         <div class="bg-green-50 text-green-800 rounded-lg p-4 mb-6">
                             <div class="flex">

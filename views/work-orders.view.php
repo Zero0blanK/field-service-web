@@ -3,25 +3,6 @@
 
 <!-- Main Content -->
 <div class="flex-1 ml-64 py-8 pr-12 pl-8">
-    <!-- Flash Messages -->
-    <?php if (isset($_SESSION['success_message'])): ?>
-        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4" role="alert">
-            <?php 
-            echo $_SESSION['success_message'];
-            unset($_SESSION['success_message']);
-            ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (isset($_SESSION['error_message'])): ?>
-        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4" role="alert">
-            <?php 
-            echo $_SESSION['error_message'];
-            unset($_SESSION['error_message']);
-            ?>
-        </div>
-    <?php endif; ?>
-
     <!-- Header Section -->
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-900">Work Orders</h1>
@@ -39,10 +20,10 @@
                 <select name="status" class="mt-1 h-10 px-2 block w-full rounded-md border-gray-300 shadow-sm"
                         onchange="this.form.submit()">
                     <option value="">All Statuses</option>
-                    <option value="pending" <?php echo $_GET['status'] === 'pending' ? 'selected' : ''; ?>>Pending</option>
-                    <option value="assigned" <?php echo $_GET['status'] === 'assigned' ? 'selected' : ''; ?>>Assigned</option>
-                    <option value="in_progress" <?php echo $_GET['status'] === 'in_progress' ? 'selected' : ''; ?>>In Progress</option>
-                    <option value="completed" <?php echo $_GET['status'] === 'completed' ? 'selected' : ''; ?>>Completed</option>
+                    <option value="pending" <?php echo ($_GET['status'] ?? '') === 'pending' ? 'selected' : ''; ?>>Pending</option>
+                    <option value="assigned" <?php echo ($_GET['status'] ?? '') === 'assigned' ? 'selected' : ''; ?>>Assigned</option>
+                    <option value="in_progress" <?php echo ($_GET['status'] ?? '') === 'in_progress' ? 'selected' : ''; ?>>In Progress</option>
+                    <option value="completed" <?php echo ($_GET['status'] ?? '') === 'completed' ? 'selected' : ''; ?>>Completed</option>
                 </select>
             </div>
 
@@ -51,10 +32,10 @@
                 <select name="priority" class="mt-1 h-10 px-2 block w-full rounded-md border-gray-300 shadow-sm"
                         onchange="this.form.submit()">
                     <option value="">All Priorities</option>
-                    <option value="low" <?php echo $_GET['priority'] === 'low' ? 'selected' : ''; ?>>Low</option>
-                    <option value="medium" <?php echo $_GET['priority'] === 'medium' ? 'selected' : ''; ?>>Medium</option>
-                    <option value="high" <?php echo $_GET['priority'] === 'high' ? 'selected' : ''; ?>>High</option>
-                    <option value="urgent" <?php echo $_GET['priority'] === 'urgent' ? 'selected' : ''; ?>>Urgent</option>
+                    <option value="low" <?php echo ($_GET['priority'] ?? '') === 'low' ? 'selected' : ''; ?>>Low</option>
+                    <option value="medium" <?php echo ($_GET['priority'] ?? '') === 'medium' ? 'selected' : ''; ?>>Medium</option>
+                    <option value="high" <?php echo ($_GET['priority'] ?? '') === 'high' ? 'selected' : ''; ?>>High</option>
+                    <option value="urgent" <?php echo ($_GET['priority'] ?? '') === 'urgent' ? 'selected' : ''; ?>>Urgent</option>
                 </select>
             </div>
 
@@ -67,7 +48,7 @@
                     foreach($technicians as $tech): 
                     ?>
                         <option value="<?php echo $tech['tech_id']; ?>"
-                                <?php echo $_GET['tech_id'] == $tech['tech_id'] ? 'selected' : ''; ?>>
+                                <?php echo ($_GET['tech_id'] ?? '') == $tech['tech_id'] ? 'selected' : ''; ?>>
                             <?php echo $tech['name']; ?>
                         </option>
                     <?php endforeach; ?>

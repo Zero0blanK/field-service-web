@@ -46,10 +46,6 @@
                                             class="text-green-600 hover:text-green-900">
                                         <i class="fas fa-check"></i>
                                     </button>
-                                    <button onclick="rejectOrder(<?php echo $order['order_id']; ?>)" 
-                                            class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-times"></i>
-                                    </button>
                                     <button onclick="viewOrderDetails(<?php echo $order['order_id']; ?>)" 
                                             class="text-blue-600 hover:text-blue-900">
                                         <i class="fas fa-eye"></i>
@@ -65,5 +61,32 @@
     </div>
 </div>
 
-<script src="/public/js/technicians/tech-dashboard.js" </script>
+<!-- Order Details Modal -->
+<div id="orderDetailsModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl w-full max-w-4xl mx-4">
+        <div class="flex justify-between items-center border-b px-6 py-4">
+            <h3 class="text-xl font-bold" id="modalTitle">Work Order Details</h3>
+            <button onclick="closeModal()" class="text-gray-500 hover:text-gray-700">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div class="p-6" id="modalContent">
+            <div class="text-center py-10">
+                <i class="fas fa-spinner fa-spin text-blue-500 text-3xl"></i>
+                <p class="mt-2 text-gray-600">Loading order details...</p>
+            </div>
+        </div>
+        <div class="bg-gray-50 px-6 py-4 flex justify-end border-t">
+            <button onclick="closeModal()" class="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg mr-2">
+                Close
+            </button>
+            <button id="updateStatusBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                Update Status
+            </button>
+        </div>
+    </div>
+</div>
+
+
+<script src="/public/js/technicians/tech-dashboard.js" defer </script>
 <?php require_once VIEWS . 'partials/footer.php'; ?>

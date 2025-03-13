@@ -40,7 +40,7 @@
                     <?php foreach($unassigned_orders as $order):?>
                     <tr class="border-b hover:bg-gray-50">
                         <td class="px-6 py-4">#<?php echo $order['order_id']; ?></td>
-                        <td class="px-6 py-4"><?php echo $order['company_name']; ?></td>
+                        <td class="px-6 py-4"><?php echo $order['customer_name']; ?></td>
                         <td class="px-6 py-4"><?php echo $order['customer_city']; ?></td>
                         <td class="px-6 py-4">
                             <?php echo date('M d, Y', strtotime($order['scheduled_date'])); ?>
@@ -84,5 +84,5 @@
 </div>
 
 <?php require_once 'partials/work_orders/assignTechnicianModal.php'; ?>
-<script src="/public/js/assign-technician.js"></script>
+<script src="/public/js/assign-technician.js" defer></script>
 <?php require_once 'partials/footer.php'; ?>

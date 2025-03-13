@@ -12,45 +12,46 @@
     </div>
 
     <!-- Filter and Search Section -->
-    <div class="bg-white rounded-lg shadow p-4 mb-6">
-        <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
-            <div class="col-span-2 col-end-2">
-                <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
-                <select name="status" class="mt-1 h-10 px-2 block w-full rounded-md border-gray-300 shadow-sm"
-                        onchange="this.form.submit()">
+    <form method="GET" action="" id="technician-filter-form">
+        <div class="bg-white rounded-lg shadow p-4 mb-6">
+            <div class="grid grid-cols-1 md:grid-cols-5 gap-4">
+                <div class="col-span-2 col-end-2">
+                    <label for="status" class="block text-sm font-medium text-gray-700">Status</label>
+                    <select id="status" name="status" class="mt-1 h-10 px-2 block w-full rounded-md border-gray-300 shadow-sm">
                         <option value="">All Statuses</option>
-                    <option value="available">Available</option>
-                    <option value="busy">Busy</option>
-                    <option value="off-duty">Off Duty</option>
-                </select>
-            </div>
-            <div class="col-span-2 col-end-6 self-end">
-                <label for="search" class="block text-sm font-medium text-gray-700">Search</label>
-                <div class="relative">
-                    <input type="text" 
-                        id="searchInput"
-                        name="search" 
-                        value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
-                        class="w-full px-4 py-2 pl-10 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-                        placeholder="Search technicians...">
-                    <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                        <i class="fas fa-search text-gray-400"></i>
-                    </div>
-                    <div id="searchSpinner" class="absolute inset-y-0 right-0 pr-3 flex items-center hidden">
-                        <svg class="animate-spin h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                        </svg>
+                        <option value="available" <?php echo ($_GET['status'] ?? '') === 'available' ? 'selected' : ''; ?>>Available</option>
+                        <option value="busy" <?php echo ($_GET['status'] ?? '') === 'busy' ? 'selected' : ''; ?>>Busy</option>
+                        <option value="off-duty" <?php echo ($_GET['status'] ?? '') === 'off-duty' ? 'selected' : ''; ?>>Off Duty</option>
+                    </select>
+                </div>
+                <div class="col-span-2 col-end-6 self-end">
+                    <label for="searchInput" class="block text-sm font-medium text-gray-700">Search</label>
+                    <div class="relative">
+                        <input type="text" 
+                            id="searchInput"
+                            name="search" 
+                            value="<?php echo htmlspecialchars($_GET['search'] ?? ''); ?>"
+                            class="w-full px-4 py-2 pl-10 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+                            placeholder="Search technicians...">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <i class="fas fa-search text-gray-400"></i>
+                        </div>
+                        <div id="searchSpinner" class="absolute inset-y-0 right-0 pr-3 flex items-center hidden">
+                            <svg class="animate-spin h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="col-span-1 col-end-7 self-end">
-                <button type="button" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Apply Filters
-                </button>
-            </div>
         </div>
-    </div>
+        
+        <!-- Preserve pagination when filtering -->
+        <?php if (isset($_GET['page'])): ?>
+            <input type="hidden" name="page" value="<?php echo (int)$_GET['page']; ?>">
+        <?php endif; ?>
+    </form>
 
     <!-- Technicians Table -->
     <div class="bg-white rounded-lg shadow overflow-hidden">

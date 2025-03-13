@@ -1,15 +1,62 @@
 <?php
 
-
-
 $config = require_once 'config.php';
 $db = new dbConnection($config['database']);
 
-// Handle AJAX search request
-if (isset($_GET['search']) && isset($_GET['ajax'])) {
+// Handle resident search AJAX request
+if (isset($_GET['search']) && isset($_GET['ajax']) && isset($_GET['type']) && $_GET['type'] == 'residents') {
     try {
         $search = $_GET['search'];
-        $params = [':search' => "%{$search}%"];
+        $params = [
+            "%{$search}%",
+            "%{$search}%"
+        ];
+        
+        $residents = $db->query("
+            SELECT 
+                c.*, 
+                u.name, 
+                u.email, 
+                u.phone, 
+                u.address, 
+                u.city, 
+                u.zipcode,
+                COUNT(wo.order_id) as total_orders,
+                COUNT(CASE WHEN wo.status = 'completed' THEN 1 END) as completed_orders
+            FROM customers c
+            LEFT JOIN users u ON c.user_id = u.user_id
+            LEFT JOIN work_orders wo ON c.customer_id = wo.customer_id
+            WHERE (c.company_name = '' OR c.company_name IS NULL) 
+            AND u.role = 'customer'
+            AND (
+                u.name LIKE ?
+                OR u.city LIKE ?
+            )
+            GROUP BY c.customer_id
+            ORDER BY u.name",
+            $params
+        )->fetchAll();
+        
+        header('Content-Type: application/json');
+
+        echo json_encode($residents);
+        exit;
+    } catch (Exception $e) {
+        header('Content-Type: application/json');
+        echo json_encode(['error' => $e->getMessage()]);
+        exit;
+    }
+}
+
+// Handle Company AJAX search request
+if (isset($_GET['search']) && isset($_GET['ajax']) && (!isset($_GET['type']) || $_GET['type'] == 'companies')) {
+    try {
+        $search = $_GET['search'];
+        $params = [
+            "%{$search}%",
+            "%{$search}%",
+            "%{$search}%"
+        ];
         
         $companies = $db->query("
             SELECT 
@@ -27,9 +74,9 @@ if (isset($_GET['search']) && isset($_GET['ajax'])) {
             LEFT JOIN work_orders wo ON c.customer_id = wo.customer_id
             WHERE c.company_name != '' 
             AND (
-                c.company_name LIKE :search 
-                OR u.name LIKE :search
-                OR u.city LIKE :search
+                c.company_name LIKE ?
+                OR u.name LIKE ?
+                OR u.city LIKE ?
             )
             GROUP BY c.customer_id
             ORDER BY c.company_name",
@@ -40,6 +87,7 @@ if (isset($_GET['search']) && isset($_GET['ajax'])) {
         echo json_encode($companies);
         exit;
     } catch (Exception $e) {
+        header('Content-Type: application/json');
         echo json_encode(['error' => $e->getMessage()]);
         exit;
     }

@@ -3,8 +3,16 @@
 
 <script src="/public/js/customers/work-order-history.js" defer></script>
 
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/themes/light.css" />
+<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.0/cdn/shoelace-autoloader.js"></script>
+
 <div class="flex-1 ml-64 p-8">
-    <h1 class="text-3xl font-bold mb-6">Work Order Requests</h1>
+    <sl-breadcrumb class="topNavbar mb-[20px]">
+        <sl-breadcrumb-item>
+            <sl-icon slot="prefix" name="clipboard-check"></sl-icon>
+            <label style="padding-left: 10px; font-size: 18px; font-weight: 600;">| Track Status</label>
+        </sl-breadcrumb-item>
+    </sl-breadcrumb>
 
     <!-- Filters -->
     <form method="GET" class="bg-white shadow-md rounded-lg p-6 mb-6">
@@ -31,7 +39,6 @@
             <div>
                 <label class="block text-gray-700 text-sm font-bold mb-2">Sort By</label>
                 <select name="sortBy" class="w-full px-3 py-2 border rounded">
-                    <option value="">None</option>
                     <option value="ASC" <?php echo ($sortBy === 'ASC') ? 'selected' : ''; ?>>Ascending</option>
                     <option value="DESC" <?php echo ($sortBy === 'DESC') ? 'selected' : ''; ?>>Descending</option>
                 </select>
@@ -71,14 +78,18 @@
                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
                             <?php
                             switch($order['priority']) {
-                                case 'high':
+                                case 'urgent':
                                     echo 'bg-red-100 text-red-800';
                                     break;
-                                case 'medium':
+                                case 'high':
                                     echo 'bg-yellow-100 text-yellow-800';
                                     break;
-                                default:
-                                    echo 'bg-green-100 text-green-800';
+                                case 'medium':
+                                    echo 'bg-blue-100 text-blue-800';
+                                    break;
+                                case 'low':
+                                    echo 'bg-gray-100 text-gray-800';
+                                    break;
                             }
                             ?>">
                             <?php echo ucfirst($order['priority']); ?>
@@ -89,13 +100,13 @@
                             <?php
                             switch($order['status']) {
                                 case 'pending':
-                                    echo 'bg-yellow-100 text-yellow-800';
+                                    echo 'bg-gray-100 text-gray-800';
                                     break;
                                 case 'assigned':
                                     echo 'bg-blue-100 text-blue-800';
                                     break;
-                                case 'in-progress':
-                                    echo 'bg-purple-100 text-purple-800';
+                                case 'in_progress':
+                                    echo 'bg-yellow-100 text-yellow-800';
                                     break;
                                 case 'completed':
                                     echo 'bg-green-100 text-green-800';
@@ -103,8 +114,6 @@
                                 case 'cancelled':
                                     echo 'bg-red-100 text-red-800';
                                     break;
-                                default:
-                                    echo 'bg-gray-100 text-gray-800';
                             }
                             ?>">
                             <?php echo ucfirst($order['status']); ?>

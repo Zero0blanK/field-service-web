@@ -23,7 +23,10 @@ $routes = [
 
     // Technician only
     '/technicians/dashboard' => ['file' => 'controllers/technicians/tech-dashboard.php', 'roles' => ['technician']],
+    '/technicians/dashboard/get-details' => ['file' => 'controllers/technicians/tech-get-order-details.php', 'roles' => ['technician']],
     '/technicians/work-order/history' => ['file' => 'controllers/technicians/work-order-history.php', 'roles' => ['technician']],
+    '/technicians/work-order/update' => ['file' => 'controllers/technicians/work-order-update-ajax.php', 'roles' => ['technician']],
+    '/technicians/work-order/get-details' => ['file' => 'controllers/technicians/work-order-get-details-ajax.php', 'roles' => ['technician']],
     '/technicians/work-order/details' => ['file' => 'controllers/technicians/work-order-details.php', 'roles' => ['technician']],
     '/technicians/profile/skills' => ['file' => 'controllers/technicians/tech-skills.php', 'roles' => ['technician']],
     '/technicians/profile' => ['file' => 'controllers/technicians/tech-profile.php', 'roles' => ['technician']],
@@ -35,6 +38,8 @@ $routes = [
     '/user/work-order/get-details' => ['file' => 'controllers/customers/work-order-details.php', 'roles' => ['customer']],
     '/user/work-order/cancel' => ['file' => 'controllers/customers/work-order-cancel.php', 'roles' => ['customer']],
     '/user/profile' => ['file' => 'controllers/customers/profile.php', 'roles' => ['customer']],
+    '/user/preferences' => ['file' => 'controllers/customers/profile-preferences.php', 'roles' => ['customer']],
+    '/user/profile/get-tech-preferences' => ['file' => 'controllers/customers/profile-get-tech-preferences.php', 'roles' => ['customer']],
 ];
 
 routeToController($uri, $routes);

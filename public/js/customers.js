@@ -32,81 +32,165 @@ window.onclick = function(event) {
 const searchInput = document.getElementById('searchInput');
 const searchSpinner = document.getElementById('searchSpinner');
 const tableBody = document.querySelector('tbody');
-let debounceTimer;
 
-searchInput.addEventListener('input', function(e) {
-    // Show spinner
-    searchSpinner.classList.remove('hidden');
+document.addEventListener('DOMContentLoaded', function() {
+    // Setup companies search
+    const companiesSearchInput = document.getElementById('companiesSearchInput');
+    if (companiesSearchInput) {
+        setupSearch(companiesSearchInput, 'companies');
+    }
     
-    // Clear previous timer
-    clearTimeout(debounceTimer);
+    // Setup residents search
+    const residentsSearchInput = document.getElementById('residentsSearchInput');
+    if (residentsSearchInput) {
+        setupSearch(residentsSearchInput, 'residents');
+    }
+});
+
+function setupSearch(searchInput, tableType) {
+    let debounceTimer;
     
-    // Debounce the search
-    debounceTimer = setTimeout(() => {
-        const searchTerm = e.target.value.trim();
+    searchInput.addEventListener('input', function() {
+        // Clear the previous timer
+        clearTimeout(debounceTimer);
         
-        // Make AJAX request
-        fetch(`/controllers/customers.php?search=${encodeURIComponent(searchTerm)}&ajax=1`)  // Add /controllers/ to the path
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json();
-        })
+        // Show the spinner
+        const spinnerId = `${tableType}SearchSpinner`;
+        const spinner = document.getElementById(spinnerId);
+        if (spinner) spinner.classList.remove('hidden');
+        
+        // Set a new timer
+        debounceTimer = setTimeout(() => {
+            performSearch(this.value, tableType);
+        }, 500); // Wait for 500ms after typing stops
+    });
+}
+
+function performSearch(query, tableType) {
+    // Make AJAX request to search endpoint
+    fetch(`?search=${encodeURIComponent(query)}&type=${tableType}&ajax=1`)
+        .then(response => response.json())
         .then(data => {
-            // Clear current table contents
-            tableBody.innerHTML = '';
-            
-            if (data.length === 0) {
-                tableBody.innerHTML = `
-                    <tr>
-                        <td colspan="5" class="px-6 py-4 text-center text-gray-500">
-                            No results found
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-            
-            // Add new results
-            data.forEach(company => {
-                tableBody.innerHTML += `
-                    <tr class="hover:bg-gray-50">
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm font-medium text-gray-900">${company.company_name || 'N/A'}</div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">${company.name || 'N/A'}</div>
-                        </td>
-                        <td class="px-6 py-4">
-                            <div class="text-sm text-gray-500">
-                                <p><i class="fas fa-envelope mr-2 text-gray-400"></i>${company.email || 'N/A'}</p>
-                                <p><i class="fas fa-phone mr-2 text-gray-400"></i>${company.phone || 'N/A'}</p>
-                                <p><i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>${company.address || 'N/A'}</p>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-500">
-                                <p>Total: ${company.total_orders || 0}</p>
-                                <p>Completed: ${company.completed_orders || 0}</p>
-                            </div>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                            <button onclick="viewCustomerDetails(${company.customer_id})"
-                                    class="text-indigo-600 hover:text-indigo-900 hover:bg-indigo-100 border border-indigo-600 px-2 py-1 rounded">
-                                Details
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            });
+            // Update the appropriate table with search results
+            updateTable(data, tableType);
             
             // Hide spinner
-            searchSpinner.classList.add('hidden');
+            const spinnerId = `${tableType}SearchSpinner`;
+            const spinner = document.getElementById(spinnerId);
+            if (spinner) spinner.classList.add('hidden');
         })
         .catch(error => {
-            console.error('Error:', error);
-            searchSpinner.classList.add('hidden');
+            console.error('Search error:', error);
+            
+            // Hide spinner on error
+            const spinnerId = `${tableType}SearchSpinner`;
+            const spinner = document.getElementById(spinnerId);
+            if (spinner) spinner.classList.add('hidden');
         });
-    }, 300); // Debounce delay of 300ms
-});
+}
+
+function updateTable(data, tableType) {
+    // Get the appropriate table body - first table for companies, second for residents
+    const tableIndex = tableType === 'companies' ? 0 : 1;
+    const tableBody = document.querySelectorAll('tbody')[tableIndex];
+    
+    // Clear existing table rows
+    tableBody.innerHTML = '';
+    
+    // If no results, show empty message
+    if (data.length === 0) {
+        const emptyRow = document.createElement('tr');
+        const colspan = tableType === 'companies' ? '5' : '4';
+        emptyRow.innerHTML = `
+            <td colspan="${colspan}" class="px-6 py-4 text-center text-gray-500">
+                No results found
+            </td>
+        `;
+        tableBody.appendChild(emptyRow);
+        return;
+    }
+    
+    // Add search results to table
+    data.forEach(item => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-gray-50';
+        
+        // Escape HTML to prevent XSS attacks
+        const escapeHtml = (str) => {
+            if (!str) return 'N/A';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        };
+        
+        if (tableType === 'companies') {
+            // Company table row
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900">${escapeHtml(item.company_name)}</div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">${escapeHtml(item.name)}</div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm text-gray-500">
+                        <p><i class="fas fa-envelope mr-2 text-gray-400"></i>${escapeHtml(item.email)}</p>
+                        <p><i class="fas fa-phone mr-2 text-gray-400"></i>${escapeHtml(item.phone)}</p>
+                        <p><i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>${escapeHtml(item.address)}</p>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">
+                        <p>Total: ${parseInt(item.total_orders) || 0}</p>
+                        <p>Completed: ${parseInt(item.completed_orders) || 0}</p>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button onclick="viewCustomerDetails(${parseInt(item.customer_id)})"
+                            class="text-indigo-600 hover:text-indigo-900 hover:bg-indigo-100 border border-indigo-600 px-2 py-1 rounded">
+                        Details
+                    </button>
+                </td>
+            `;
+        } else {
+            // Residents table row
+            row.innerHTML = `
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm font-medium text-gray-900">${escapeHtml(item.name)}</div>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="text-sm text-gray-500">
+                        <p><i class="fas fa-envelope mr-2 text-gray-400"></i>${escapeHtml(item.email)}</p>
+                        <p><i class="fas fa-phone mr-2 text-gray-400"></i>${escapeHtml(item.phone)}</p>
+                        <p><i class="fas fa-map-marker-alt mr-2 text-gray-400"></i>${escapeHtml(item.address)}</p>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">
+                        <p>Total: ${parseInt(item.total_orders) || 0}</p>
+                        <p>Completed: ${parseInt(item.completed_orders) || 0}</p>
+                    </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                    <button onclick="viewCustomerDetails(${parseInt(item.customer_id)})"
+                            class="text-indigo-600 hover:text-indigo-900 hover:bg-indigo-100 border border-indigo-600 px-2 py-1 rounded">
+                        Details
+                    </button>
+                </td>
+            `;
+        }
+        
+        tableBody.appendChild(row);
+    });
+    
+    // Hide pagination when showing search results
+    const paginationSections = document.querySelectorAll('.bg-gray-50.px-4.py-3.border-t');
+    if (paginationSections && paginationSections.length > 0) {
+        paginationSections[tableIndex].style.display = 'none';
+    } else if (paginationSections && paginationSections.length > 0) {
+        paginationSections[tableIndex].style.display = 'block';
+    }
+}

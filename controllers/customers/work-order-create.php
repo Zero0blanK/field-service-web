@@ -1,11 +1,5 @@
 <?php
 
-
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-error_log("Received request: " . file_get_contents("php://input"));
-
-
 $config = require_once 'config.php';
 $db = new dbConnection($config['database']);
 
@@ -19,7 +13,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (isset($data["action"]) && $data["action"] === "create") {
         try {
-            error_log("create request received");
 
             $userID = $_SESSION['user_id'] ?? null;
             if (!$userID) {
@@ -72,7 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     } elseif (isset($data["action"]) && $data["action"] === "cancel") {
         try {
-            error_log("cancel request received");
 
             $requestID = trim($data["requestID"] ?? "");
             $customerID = $_SESSION['customer_id'] ?? null;

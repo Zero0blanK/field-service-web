@@ -29,11 +29,10 @@
                 <sl-textarea id="createRequest_Description" label="Description" help-text="Give us a brief description of this Request?" size="medium" clearable style="width: 100%;"></sl-textarea>
                 <br>
                 <sl-select id="createRequest_Priority" label="Priority" help-text="How urgent is this Request?" size="medium" style="width: 100%;">
-                    <sl-option value="">None</sl-option>
                     <sl-option value="low">Low</sl-option>
                     <sl-option value="medium">Medium</sl-option>
                     <sl-option value="high">High</sl-option>
-                    <sl-option value="urget">Urgent</sl-option>
+                    <sl-option value="urgent">Urgent</sl-option>
                 </sl-select>
                 <br>
                 <div style="display: flex; width: 100%;">

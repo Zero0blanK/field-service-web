@@ -99,6 +99,28 @@ function editTechnician(techId) {
 
 }
 
+const searchInput = document.getElementById('searchInput');
+const searchSpinner = document.getElementById('searchSpinner');
+const statusSelect = document.getElementById('status');
+let searchTimeout;
+
+// Handle search input with debounce
+searchInput.addEventListener('input', function() {
+    clearTimeout(searchTimeout);
+    
+    if (this.value.length >= 2 || this.value.length === 0) {
+        searchSpinner.classList.remove('hidden');
+        
+        searchTimeout = setTimeout(function() {
+            document.getElementById('technician-filter-form').submit();
+        }, 500);
+    }
+});
+
+// Handle status change
+statusSelect.addEventListener('change', function() {
+    document.getElementById('technician-filter-form').submit();
+});
 // Close modals when clicking outside
 window.onclick = function(event) {
     const createModal = document.getElementById('createTechnicianModal');

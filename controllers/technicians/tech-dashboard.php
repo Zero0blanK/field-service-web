@@ -17,7 +17,7 @@ $assigned_orders = $db->query("
     FROM work_orders wo
     JOIN customers c ON wo.customer_id = c.customer_id
     JOIN users u ON c.user_id = u.user_id
-    WHERE wo.tech_id = :tech_id AND wo.status IN ('assigned', 'pending', 'in_progress')
+    WHERE wo.tech_id = :tech_id AND wo.status IN ('assigned')
     ORDER BY wo.scheduled_date, wo.scheduled_time
 ", [$tech_id]
 )->fetchAll();

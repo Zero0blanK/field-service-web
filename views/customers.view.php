@@ -11,13 +11,13 @@
             <div>
                 <div class="w-[450px] relative">
                     <input type="text" 
-                        id="searchInput"
+                        id="companiesSearchInput" 
                         class="w-full px-4 py-2.5 pl-10 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                         placeholder="Search companies by name or city...">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fas fa-search text-gray-400"></i>
                     </div>
-                    <div id="searchSpinner" class="absolute inset-y-0 right-0 pr-3 flex items-center hidden">
+                    <div id="companiesSearchSpinner" class="absolute inset-y-0 right-0 pr-3 flex items-center hidden">
                         <svg class="animate-spin h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
@@ -121,13 +121,13 @@
             <div>
                 <div class="w-[450px] relative">
                     <input type="text" 
-                        id="searchInput"
+                        id="residentsSearchInput" 
                         class="w-full px-4 py-2.5 pl-10 pr-8 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
                         placeholder="Search residents by name or city...">
                     <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <i class="fas fa-search text-gray-400"></i>
                     </div>
-                    <div id="searchSpinner" class="absolute inset-y-0 right-0 pr-3 flex items-center hidden">
+                    <div id="residentsSearchSpinner" class="absolute inset-y-0 right-0 pr-3 flex items-center hidden">
                         <svg class="animate-spin h-5 w-5 text-indigo-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                             <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>

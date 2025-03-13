@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } catch (Exception $e) {
         $_SESSION['error_message'] = "Error: " . $e->getMessage();
     }
-    header("Location: controllers/work_orders.php");
+    header("Location: /dashboard/work-orders");
     exit;
 }
 
@@ -102,8 +102,11 @@ try {
 
     if (!empty($_GET['search'])) {
         $search = '%' . $_GET['search'] . '%';
-        $conditions[] = "(wo.title LIKE :search OR wo.description LIKE :search OR uc.name LIKE :search OR c.company_name LIKE :search)";
-        $params[':search'] = $search;
+        $conditions[] = "(wo.title LIKE :search_title OR wo.description LIKE :search_desc OR uc.name LIKE :search_name OR c.company_name LIKE :search_company)";
+        $params[':search_title'] = $search;
+        $params[':search_desc'] = $search;
+        $params[':search_name'] = $search;
+        $params[':search_company'] = $search;
     }
 
     $where_clause = !empty($conditions) ? 'WHERE ' . implode(' AND ', $conditions) : '';
@@ -111,11 +114,6 @@ try {
     $allowed_sort_fields = ['created_at', 'priority', 'scheduled_date', 'status'];
     $sort_field = in_array($_GET['sort'] ?? '', $allowed_sort_fields) ? $_GET['sort'] : 'created_at';
     $sort_direction = strtoupper($_GET['direction'] ?? 'DESC') === 'ASC' ? 'ASC' : 'DESC';
-
-    error_log("Search parameter: " . $_GET['search']);
-    error_log("SQL Query: SELECT wo.*, uc.name AS customer_name, uc.phone AS customer_phone, c.*, ut.name AS tech_name, ut.email AS tech_email, cp.preferred_contact_method, GROUP_CONCAT(s.name ORDER BY s.name ASC) AS tech_skills FROM work_orders wo LEFT JOIN customers c ON wo.customer_id = c.customer_id LEFT JOIN users uc ON c.user_id = uc.user_id AND uc.role = 'customer' LEFT JOIN customer_preferences cp ON c.customer_id = cp.customer_id LEFT JOIN technicians t ON wo.tech_id = t.tech_id LEFT JOIN users ut ON t.user_id = ut.user_id AND ut.role = 'technician' LEFT JOIN technician_skills ts ON t.tech_id = ts.tech_id LEFT JOIN skills s ON ts.skill_id = s.skill_id {$where_clause} GROUP BY wo.order_id ORDER BY wo.{$sort_field} {$sort_direction}");
-    error_log("SQL Params: " . json_encode($params));
-
 
     // Main work orders query
     $work_orders = $db->query("
