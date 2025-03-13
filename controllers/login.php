@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['login'])) {
                     header("Location: /technicians/dashboard");
                     break;
                 case 'customer':
-                    header("Location: /user/dashboard");
+                    header("Location: /user/work-order/history");
                     break;
                 default:
                     header("Location: /dashboard");

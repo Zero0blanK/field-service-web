@@ -1,5 +1,5 @@
 <!-- View Work Order Modal -->
-<div id="viewOrderModal" class="hidden fixed inset-0 bg-gray-600/30 bg-opacity-50 overflow-y-auto h-full w-full">
+<div id="viewOrderModal" class="hidden fixed inset-0 bg-gray-600/50 bg-opacity-50 overflow-y-auto h-full w-full z-[100]">
     <div class="relative my-8 mx-auto p-5 border border-gray-400 w-full max-w-xl shadow-lg rounded-md bg-white">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-medium text-gray-900">Work Order Details</h3>

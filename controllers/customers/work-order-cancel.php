@@ -52,7 +52,9 @@ $result = $db->query("
 ", [$order_id, $customer_id]);
 
 if ($result) {
+    $_SESSION['success'] = 'Work order cancelled successfully';
     echo json_encode(['success' => true, 'message' => 'Work order cancelled successfully']);
 } else {
+    $_SESSION['error'] = 'Failed to cancel work order';
     echo json_encode(['success' => false, 'message' => 'Failed to cancel work order']);
 }

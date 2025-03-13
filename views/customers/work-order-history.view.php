@@ -13,9 +13,25 @@
             <label style="padding-left: 10px; font-size: 18px; font-weight: 600;">| Track Status</label>
         </sl-breadcrumb-item>
     </sl-breadcrumb>
+    <?php if (isset($_SESSION['success'])): ?>
+        <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 mt-4">
+            <?php 
+            echo $_SESSION['success'];
+            unset($_SESSION['success']);
+            ?>
+        </div>
+    <?php endif; ?>
 
+    <?php if (isset($_SESSION['error'])): ?>
+        <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 mt-4">
+            <?php 
+            echo $_SESSION['error'];
+            unset($_SESSION['error']);
+            ?>
+        </div>
+    <?php endif; ?>
     <!-- Filters -->
-    <form method="GET" class="bg-white shadow-md rounded-lg p-6 mb-6">
+    <form method="GET" class="bg-white shadow-md rounded-lg p-6 mb-6 mt-[20px]">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
             <div>
                 <label class="block text-gray-700 text-sm font-bold mb-2">Order By</label>
@@ -98,23 +114,23 @@
                     <td class="px-6 py-4">
                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
                             <?php
-                            switch($order['status']) {
-                                case 'pending':
-                                    echo 'bg-gray-100 text-gray-800';
-                                    break;
-                                case 'assigned':
-                                    echo 'bg-blue-100 text-blue-800';
-                                    break;
-                                case 'in_progress':
-                                    echo 'bg-yellow-100 text-yellow-800';
-                                    break;
-                                case 'completed':
-                                    echo 'bg-green-100 text-green-800';
-                                    break;
-                                case 'cancelled':
-                                    echo 'bg-red-100 text-red-800';
-                                    break;
-                            }
+                                switch($order['status']) {
+                                    case 'pending':
+                                        echo 'bg-gray-100 text-gray-800';
+                                        break;
+                                    case 'assigned':
+                                        echo 'bg-blue-100 text-blue-800';
+                                        break;
+                                    case 'in_progress':
+                                        echo 'bg-yellow-100 text-yellow-800';
+                                        break;
+                                    case 'completed':
+                                        echo 'bg-green-100 text-green-800';
+                                        break;
+                                    case 'cancelled':
+                                        echo 'bg-red-100 text-red-800';
+                                        break;
+                                }
                             ?>">
                             <?php echo ucfirst($order['status']); ?>
                         </span>
@@ -139,7 +155,7 @@
                                 class="text-blue-600 hover:text-blue-900 mr-2">
                             <i class="fas fa-eye"></i>
                         </button>
-                        <?php if($order['status'] == 'pending' || $order['status'] == 'assigned'): ?>
+                        <?php if($order['status'] == 'pending'): ?>
                         <button onclick="cancelWorkOrder(<?php echo $order['order_id']; ?>)" 
                                 class="text-red-600 hover:text-red-900">
                             <i class="fas fa-times"></i>

@@ -117,13 +117,8 @@ if (confirmCancelBtn) {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Work order cancelled successfully!');
                     window.location.reload();
-                } else {
-                    alert('Failed to cancel work order: ' + data.message);
                 }
-                
-                // Close the dialog after operation
                 closeCancelDialog();
             })
             .catch(error => {

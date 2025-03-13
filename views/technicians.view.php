@@ -177,5 +177,5 @@
 <?php require_once 'partials/technicians/createModal.php'; ?>
 <?php require_once 'partials/technicians/detailsModal.php'; ?>
 <?php require_once 'partials/technicians/workOrderDetailsModal.php'; ?>
-<script src="/public/js/technicians.js"></script>
+<script src="/public/js/technicians.js" defer></script>
 <?php require_once 'partials/footer.php'; ?>

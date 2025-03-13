@@ -92,6 +92,7 @@ function viewOrderDetails(orderId) {
                         <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
                             ${order.status === 'completed' ? 'bg-green-100 text-green-800' : 
                               order.status === 'cancelled' ? 'bg-red-100 text-red-800' :
+                              order.status === 'assigned' ? 'bg-blue-100 text-blue-800' :
                               order.status === 'in_progress' ? 'bg-yellow-100 text-yellow-800' :
                               'bg-gray-100 text-gray-800'}">
                             ${capitalizeFirstLetter(order.status.replace('_', ' '))}
@@ -132,7 +133,7 @@ function viewOrderDetails(orderId) {
             });
         } else if (order.status === 'in_progress') {
             modalFooter.innerHTML = `
-                <button id="completeOrderBtn" class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600" 
+                <button id="completeOrderBtn" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600" 
                         data-order-id="${order.order_id}">
                     Complete Order
                 </button>

@@ -55,11 +55,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ]
             );
 
+            $_SESSION['success'] = "Work order created successfully.";
             echo json_encode(["status" => "success", "message" => "Work order created successfully"]);
             exit;
 
         } catch (Exception $e) {
             error_log("Transaction failed: " . $e->getMessage());
+            $_SESSION['error'] = "Failed to process the request.";
             echo json_encode(["status" => "error", "message" => "Failed to process the request.", "error" => $e->getMessage()]);
             exit;
         }
@@ -77,12 +79,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 'order_ID' => $requestID,
                 'customer_ID' => $customerID
             ]);
-
+            $_SESSION['success'] = "Request cancelled successfully.";
             echo json_encode(["status" => "success", "message" => "Request cancelled successfully"]);
             exit;
 
         } catch (Exception $e) {
             error_log("Transaction failed: " . $e->getMessage());
+            $_SESSION['error'] = "Failed to process the request.";
             echo json_encode(["status" => "error", "message" => "Failed to process the request.", "error" => $e->getMessage()]);
             exit;
         }

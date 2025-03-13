@@ -2,10 +2,10 @@
     <!-- Header with technician info -->
     <div class="relative bg-gradient-to-r from-blue-500 to-indigo-600 p-6 text-white">
         <button onclick="document.getElementById('technicianDetailsModal').classList.add('hidden'); document.body.style.overflow = '';"
-                class="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors">
+            class="absolute top-4 right-4 text-white hover:text-gray-200 transition-colors">
             <i class="fas fa-times text-lg"></i>
         </button>
-        
+
         <div class="flex items-center">
             <div class="w-16 h-16 bg-white rounded-full flex items-center justify-center text-blue-600 mr-4 shadow-md">
                 <span class="text-2xl font-bold"><?php echo substr($technician['name'], 0, 1); ?></span>
@@ -27,8 +27,8 @@
         <!-- Contact Info Card -->
         <div class="flex justify-start items-center">
             <h3 class="text-lg font-medium mb-4 flex items-center text-gray-700">
-                    <i class="fas fa-id-card mr-2 text-blue-500"></i>
-                    Contact Information
+                <i class="fas fa-id-card mr-2 text-blue-500"></i>
+                Contact Information
             </h3>
         </div>
         <div class="bg-gray-50 rounded-lg p-5 shadow-sm mb-6">
@@ -51,7 +51,9 @@
                     <i class="fas fa-map-marker-alt mt-1 mr-3 text-gray-400"></i>
                     <div>
                         <p class="text-sm text-gray-500">City</p>
-                        <p class="font-medium"><?php echo $technician['address']; echo ', ' . $technician['city']; echo ', ' . $technician['zipcode']; ?></p>
+                        <p class="font-medium"><?php echo $technician['address'];
+                                                echo ', ' . $technician['city'];
+                                                echo ', ' . $technician['zipcode']; ?></p>
                     </div>
                 </div>
             </div>
@@ -66,15 +68,15 @@
                 </h3>
             </div>
             <?php if (!empty($orders_data) && is_array($orders_data)): ?>
-                <div class="space-y-3">
-                    <?php foreach($orders_data as $order): ?>
+                <div class="space-y-3 min-h-98 max-h-98 overflow-auto">
+                    <?php foreach ($orders_data as $order): ?>
                         <div class="p-4 border border-gray-200 hover:border-blue-300 transition-colors rounded-lg bg-white hover:bg-blue-50 shadow-sm hover:shadow cursor-pointer">
                             <div class="flex justify-between items-start mb-2">
                                 <div>
                                     <h4 class="font-medium text-gray-900"><?php echo $order['title']; ?></h4>
                                     <p class="text-sm text-gray-500 flex items-center">
                                         <i class="fas fa-building mr-1 text-xs"></i>
-                                        <?php echo $order['company_name']; ?>
+                                        <?php echo $order['company_name'] == '' ? $order['customer_name'] : $order['company_name']; ?>
                                     </p>
                                 </div>
                                 <div class="flex flex-col items-end">
@@ -89,10 +91,10 @@
                             </div>
                             <p class="text-sm text-gray-600 mb-2 flex items-center">
                                 <i class="fas fa-map-marker-alt mr-1 text-gray-400"></i>
-                                <?php echo $order['address']; ?>
+                                <?php echo $order['address'] . ', ' . $order['city'] . ', ' . $order['zipcode']; ?>
                             </p>
                             <div class="flex justify-between items-center mt-3 pt-3 border-t border-gray-100">
-                            <?php $statusColors = getStatusColor($order['status']); ?>
+                                <?php $statusColors = getStatusColor($order['status']); ?>
                                 <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium <?php echo $statusColors['bg'] . ' ' . $statusColors['text']; ?>">
                                     <?php echo ucfirst(str_replace('_', ' ', $order['status'])); ?>
                                 </span>

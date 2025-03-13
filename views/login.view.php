@@ -82,11 +82,8 @@
                         </div>
 
                         <div class="space-y-2">
-                            <div class="flex items-center justify-between">
+                            <div class="flex items-center justify-start">
                                 <label class="block text-sm font-medium text-gray-700">Password</label>
-                                <a href="forgot-password.php" class="text-sm text-indigo-600 hover:text-indigo-500">
-                                    Forgot password?
-                                </a>
                             </div>
                             <div class="input-group flex items-center border rounded-lg p-3 transition-colors duration-200">
                                 <i class="fas fa-lock text-gray-400 w-6"></i>

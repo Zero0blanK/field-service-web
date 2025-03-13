@@ -1,5 +1,5 @@
 <!-- Edit Work Order Modal -->
-<div id="editOrderModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+<div id="editOrderModal" class="hidden fixed inset-0 bg-gray-600/50 bg-opacity-50 overflow-y-auto h-full w-full z-[100]">
     <div class="relative top-20 mx-auto p-5 border w-full max-w-xl shadow-lg rounded-md bg-white">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-lg font-medium text-gray-900">Edit Work Order</h3>

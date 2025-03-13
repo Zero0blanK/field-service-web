@@ -36,11 +36,18 @@ try {
     $work_orders = $db->query(
         "SELECT 
             wo.*, 
-            c.company_name
+            c.company_name,
+            u.name AS customer_name,
+            u.phone AS customer_phone,
+            u.address,
+            u.zipcode,
+            u.city
         FROM 
             work_orders wo
         LEFT JOIN customers c 
             ON wo.customer_id = c.customer_id
+        LEFT JOIN users u 
+            ON c.user_id = u.user_id 
         WHERE 
             wo.tech_id = :tech_id
         ORDER BY 

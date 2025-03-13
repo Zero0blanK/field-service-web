@@ -49,7 +49,7 @@ async function showAvailableTechs(orderId, scheduleDate) {
         techsList.innerHTML = '';
 
         techs.forEach(tech => {
-            const isAvailable = tech.current_orders < 3;
+            const isAvailable = tech.current_orders < 1;
             const row = `
                 <tr class="border-b hover:bg-gray-50">
                     <td class="px-4 py-3">${tech.name}</td>
@@ -62,7 +62,7 @@ async function showAvailableTechs(orderId, scheduleDate) {
                             ${isAvailable ? 'Available' : 'Not Available'}
                         </span>
                     </td>
-                    <td class="px-4 py-3">${tech.current_orders} / 3</td>
+                    <td class="px-4 py-3">${tech.current_orders} / 1</td>
                     <td class="px-4 py-3">
                         <form method="POST" class="inline">
                             <input type="hidden" name="order_id" value="${orderId}">

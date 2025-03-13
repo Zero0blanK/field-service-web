@@ -17,7 +17,7 @@
                     <select name="customer_id" required 
                             class="mt-1 h-11 w-full px-2 rounded-md border-gray-800 shadow-sm">
                         <?php foreach($customers as $customer): ?>
-                            <option value="<?php echo $customer['user_id']; ?>">
+                            <option  value="<?php echo $customer['user_id']; ?>">
                                 <?php echo $customer['company_name']; ?> - 
                                 <?php echo $customer['customer_name']; ?>
                             </option>

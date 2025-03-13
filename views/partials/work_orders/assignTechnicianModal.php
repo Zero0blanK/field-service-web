@@ -1,5 +1,5 @@
 <!-- Assign Technician Modal -->
-<div id="assignTechModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full">
+<div id="assignTechModal" class="hidden fixed inset-0 bg-gray-600/50 bg-opacity-50 overflow-y-auto h-full w-full z-[100]">
     <div class="relative top-10 mx-auto p-5 border w-full max-w-4xl shadow-lg rounded-md bg-white">
         <div class="flex justify-between items-center mb-4">
             <h3 class="text-xl font-bold text-gray-900">Work Order Assignment</h3>
@@ -15,7 +15,7 @@
 
         <!-- Available Technicians Section -->
         <div class="mb-4">
-            <h4 class="text-lg font-medium mb-3">Available Technicians</h4>
+            <h4 class="text-lg font-bold mb-3">Available Technicians</h4>
             <div class="overflow-x-auto">
                 <table class="min-w-full table-auto">
                     <thead>

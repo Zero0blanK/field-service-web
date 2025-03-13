@@ -12,6 +12,16 @@ function viewTechnicianDetails(techId) {
         });
 }
 
+document.getElementById("technicianForm").addEventListener("submit", function (event) {
+    let checkboxes = document.querySelectorAll('input[name="technician_skills[]"]');
+    let atLeastOneChecked = Array.from(checkboxes).some(checkbox => checkbox.checked);
+
+    if (!atLeastOneChecked) {
+        alert("Please select at least one skill.");
+        event.preventDefault(); // Prevent form submission
+    }
+});
+
 function getStatusColor(status) {
     const colors = {
         // Priority Status Colors
@@ -43,9 +53,9 @@ function viewWorkOrderDetails(orderId) {
         .then(response => response.json())
         .then(data => {
             // Populate the modal with work order details
-            document.getElementById('viewCustomer').textContent = data.company_name;
+            document.getElementById('viewCustomer').textContent = data.company_name == '' ? data.customer_name : data.company_name;
             document.getElementById('viewCustomerAddress').textContent = data.address;
-            document.getElementById('viewCustomerPhone').textContent = data.phone;
+            document.getElementById('viewCustomerPhone').textContent = data.customer_phone;
             document.getElementById('viewCustomerEmail').textContent = data.email;
             document.getElementById('viewTitle').textContent = data.title;
             document.getElementById('viewDescription').textContent = data.description;

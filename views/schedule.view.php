@@ -8,7 +8,7 @@
         <!-- Technician Status -->
         <div class="bg-white rounded-lg shadow p-6">
             <h2 class="text-xl font-bold mb-4">Technician Status</h2>
-            <div class="space-y-4">
+            <div class="space-y-4 min-h-98 max-h-98 overflow-auto">
                 <?php foreach($technicians as $tech): ?>
                     <div class="flex items-center justify-between p-4 border rounded-lg">
                         <div>
@@ -41,7 +41,7 @@
         <!-- Today's Schedule -->
         <div class="bg-white rounded-lg shadow p-6">
             <h2 class="text-xl font-bold mb-4">Today's Schedule</h2>
-            <div class="space-y-4">
+            <div class="space-y-4 min-h-98 max-h-98 overflow-auto">
                 <?php foreach($todays_orders as $order): ?>
                     <div class="p-4 border rounded-lg">
                         <div class="flex justify-between items-start mb-2">

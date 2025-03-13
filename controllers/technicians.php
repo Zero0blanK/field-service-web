@@ -7,7 +7,7 @@ require_once 'register-user.php';
 
 // Handle form submissions
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    registerUser($db, [
+    $user_id = registerUser($db, [
         ':name' => $_POST['tech_name'],
         ':email' => $_POST['email'],
         ':phone' => $_POST['phone'],
@@ -16,11 +16,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ':zipcode' => $_POST['zipcode'],
         ':password' => password_hash($_POST['password'], PASSWORD_DEFAULT),
         ':role' => 'technician'
-    ], 'technician');
+    ], 'technician', [
+        'technician_skills' => $_POST['technician_skills'] ?? []
+    ]);
+
     // Redirect to avoid form resubmission
     header('Location: /dashboard/technicians');
     exit;
 }
+
+$available_skills = $db->query("SELECT * FROM skills")->fetchAll();
 
 try {
     // Pagination settings

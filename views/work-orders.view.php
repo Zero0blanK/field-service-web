@@ -6,10 +6,6 @@
     <!-- Header Section -->
     <div class="flex justify-between items-center mb-6">
         <h1 class="text-2xl font-bold text-gray-900">Work Orders</h1>
-        <button onclick="openModal('createOrderModal')" 
-                class="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700 flex items-center">
-            <i class="fas fa-plus mr-2"></i>Create Work Order
-        </button>
     </div>
 
     <!-- Filters Section -->
@@ -24,6 +20,7 @@
                     <option value="assigned" <?php echo ($_GET['status'] ?? '') === 'assigned' ? 'selected' : ''; ?>>Assigned</option>
                     <option value="in_progress" <?php echo ($_GET['status'] ?? '') === 'in_progress' ? 'selected' : ''; ?>>In Progress</option>
                     <option value="completed" <?php echo ($_GET['status'] ?? '') === 'completed' ? 'selected' : ''; ?>>Completed</option>
+                    <option value="cancelled" <?php echo ($_GET['status'] ?? '') === 'cancelled' ? 'selected' : ''; ?>>Cancelled</option>
                 </select>
             </div>
 
@@ -207,5 +204,5 @@
 <?php require_once 'partials/work_orders/createModal.php'; ?>
 <?php require_once 'partials/work_orders/editModal.php'; ?>
 <?php require_once 'partials/work_orders/viewModal.php'; ?>
-<script src="../public/js/work-orders.js"></script>
+<script src="../public/js/work-orders.js" defer></script>
 <?php require_once 'partials/footer.php'; ?>

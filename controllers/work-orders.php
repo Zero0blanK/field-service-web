@@ -44,6 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             :scheduled_time
                             )
                     ", $params);
+                    header("Location: /dashboard/work-orders");
                     break;
 
                 case 'update':

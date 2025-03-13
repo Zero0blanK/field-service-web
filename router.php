@@ -32,7 +32,6 @@ $routes = [
     '/technicians/profile' => ['file' => 'controllers/technicians/tech-profile.php', 'roles' => ['technician']],
 
     // Customer only
-    '/user/dashboard' => ['file' => 'controllers/customers/track-status.php', 'roles' => ['customer']],
     '/user/work-order/history' => ['file' => 'controllers/customers/work-order-history.php', 'roles' => ['customer']],
     '/user/work-order/create' => ['file' => 'controllers/customers/work-order-create.php', 'roles' => ['customer']],
     '/user/work-order/get-details' => ['file' => 'controllers/customers/work-order-details.php', 'roles' => ['customer']],

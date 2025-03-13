@@ -22,6 +22,23 @@
         </sl-breadcrumb>
     </div>
     <nav class="sl-theme-dark">
+        <?php if (isset($_SESSION['success'])): ?>
+            <div class="bg-green-100 border-l-4 border-green-500 text-green-700 p-4 mb-4 mt-4">
+                <?php 
+                echo $_SESSION['success'];
+                unset($_SESSION['success']);
+                ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if (isset($_SESSION['error'])): ?>
+            <div class="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 mb-4 mt-4">
+                <?php 
+                echo $_SESSION['error'];
+                unset($_SESSION['error']);
+                ?>
+            </div>
+        <?php endif; ?>
         <div class="w-[680px] mt-[20px]">
             <div class="filterBar1">
                 <sl-input id="createRequest_Title" label="Title" help-text="What's the title of this Request?" size="medium" clearable style="width: 100%;"></sl-input>

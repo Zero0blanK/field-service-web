@@ -12,7 +12,9 @@ try {
         "SELECT wo.*, 
             c.company_name, 
             u_c.name AS customer_name, 
-            u_c.phone AS customer_phone, 
+            u_c.phone AS customer_phone,
+            u_c.email,
+            u_c.address,
             u_t.name AS tech_name, 
             t.status AS tech_status
         FROM 

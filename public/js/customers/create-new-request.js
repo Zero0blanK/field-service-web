@@ -56,7 +56,7 @@ async function sendRequestData(data) {
             clearInputFields();
             Submit.removeAttribute("loading");
             Submit.setAttribute("variant", "success");
-            setTimeout(() => {window.location.reload();}, 3000);
+            window.location.reload();
         } else if (result.status === "error") {
             console.error("Request failed:", result.message);
 
